@@ -1,0 +1,14 @@
+[2026-06-23 15:55:07] [INFO] Iniciando desativacao de seguranca...
+[2026-06-23 15:55:07] [INFO] Modo WhatIf: False
+[2026-06-23 15:55:07] [INFO] Exportando estado atual das configuracoes para: E:\manut\Configurations\lowestSecurity\core\..\security-state-backup_20260623_155507.json
+[2026-06-23 15:55:07] [OK] Backup do estado salvo com sucesso
+[2026-06-23 15:55:07] [INFO] === Tamper Protection (Protecao contra Violacoes) ===
+[2026-06-23 15:55:07] [WARN] Tamper Protection esta ATIVADA.
+[2026-06-23 15:55:07] [WARN] Tamper Protection ativa - protecao a nivel de kernel impede desativacao em modo normal.
+[2026-06-23 15:55:07] [INFO] Preparando reinicio automatico em Safe Mode para desativar...
+[2026-06-23 15:55:07] [OK] Script Safe Mode criado: C:\Users\adm02\AppData\Local\Temp\disable-tamper-safemode.cmd
+[2026-06-23 15:55:08] [OK] RunOnce registrado para executar em Safe Mode
+[2026-06-23 15:55:08] [OK] Safe Mode configurado para proximo boot
+[2026-06-23 15:55:08] [INFO] Total: 1 | Desativados: 0 | Falhas: 0 | WhatIf: 0
+[2026-06-23 15:55:08] [INFO] Log salvo em: E:\manut\Configurations\lowestSecurity\core\..\disable-security_20260623_155507.log
+[2026-06-23 15:55:18] [WARN] Reiniciando em Safe Mode em 15 segundos...

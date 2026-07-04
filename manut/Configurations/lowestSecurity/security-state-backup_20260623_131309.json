@@ -1,0 +1,27 @@
+﻿{
+    "PUAProtection":  0,
+    "IsTamperProtected":  true,
+    "MAPSReporting":  2,
+    "EnableControlledFolderAccess":  0,
+    "DisableBehaviorMonitoring":  false,
+    "DisableBlockAtFirstSeen":  false,
+    "DisableScriptScanning":  false,
+    "Timestamp":  "2026-06-23T13:13:11.3131688-03:00",
+    "SubmitSamplesConsent":  1,
+    "FirewallProfiles":  [
+                             {
+                                 "Name":  "Domain",
+                                 "Enabled":  1
+                             },
+                             {
+                                 "Name":  "Private",
+                                 "Enabled":  1
+                             },
+                             {
+                                 "Name":  "Public",
+                                 "Enabled":  1
+                             }
+                         ],
+    "DisableIOAVProtection":  false,
+    "DisableRealtimeMonitoring":  false
+}

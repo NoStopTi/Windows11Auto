@@ -1,0 +1,98 @@
+[2026-06-23 14:28:49] [INFO] Iniciando desativacao de seguranca...
+[2026-06-23 14:28:49] [INFO] Modo WhatIf: False
+[2026-06-23 14:28:49] [INFO] Exportando estado atual das configuracoes para: E:\manut\Configurations\lowestSecurity\core\..\security-state-backup_20260623_142849.json
+[2026-06-23 14:28:50] [OK] Backup do estado salvo com sucesso
+[2026-06-23 14:28:50] [INFO] === Tamper Protection (Protecao contra Violacoes) ===
+[2026-06-23 14:28:50] [WARN] Tamper Protection esta ATIVADA.
+[2026-06-23 14:28:50] [INFO] Tentativa 1: Tomar posse da chave de registro e escrever...
+[2026-06-23 14:28:50] [ERROR] Registry write failed: HKLM:\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtection - O pedido de acesso ao Registo não é permitido.
+[2026-06-23 14:28:50] [WARN] Acesso negado. Tentando tomar posse da chave: HKLM:\SOFTWARE\Microsoft\Windows Defender\Features
+[2026-06-23 14:28:50] [ERROR] Falha mesmo apos tomar posse: HKLM:\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtection - Exception calling "OpenSubKey" with "3" argument(s): "O pedido de acesso ao Registo não é permitido."
+[2026-06-23 14:28:50] [ERROR] Registry write failed: HKLM:\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtectionSource - O pedido de acesso ao Registo não é permitido.
+[2026-06-23 14:28:50] [WARN] Acesso negado. Tentando tomar posse da chave: HKLM:\SOFTWARE\Microsoft\Windows Defender\Features
+[2026-06-23 14:28:50] [ERROR] Falha mesmo apos tomar posse: HKLM:\SOFTWARE\Microsoft\Windows Defender\Features\TamperProtectionSource - Exception calling "OpenSubKey" with "3" argument(s): "O pedido de acesso ao Registo não é permitido."
+[2026-06-23 14:28:52] [WARN] Tamper Protection esta ATIVADA.
+[2026-06-23 14:28:52] [INFO] Tentativa 2: Executar como SYSTEM via tarefa agendada...
+[2026-06-23 14:28:56] [OK] Comando executado como SYSTEM
+[2026-06-23 14:28:58] [WARN] Tamper Protection esta ATIVADA.
+[2026-06-23 14:28:58] [INFO] Tentativa 3: Aplicando via GPO (efetiva apos reinicio)...
+[2026-06-23 14:28:58] [OK] GPO: TamperProtection = 0
+[2026-06-23 14:28:58] [INFO] Tentativa 4: reg.exe direto...
+[2026-06-23 14:28:58] [INFO] reg.exe resultado: ERROR: Acesso negado. System.Management.Automation.RemoteException
+[2026-06-23 14:29:00] [WARN] Tamper Protection esta ATIVADA.
+[2026-06-23 14:29:00] [WARN] Tamper Protection ainda ativa. GPO aplicada para efetivar apos reinicio.
+[2026-06-23 14:29:01] [WARN] Alternativa manual: Windows Security > Virus & threat protection > Manage settings > Tamper Protection > Off
+[2026-06-23 14:29:01] [INFO] === Microsoft Defender Antivirus ===
+[2026-06-23 14:29:01] [OK] Desativado: Protecao em tempo real
+[2026-06-23 14:29:01] [OK] Desativado: Monitoramento de comportamento
+[2026-06-23 14:29:01] [OK] Desativado: Block at First Seen
+[2026-06-23 14:29:01] [OK] Desativado: Verificacao de downloads (IOAV)
+[2026-06-23 14:29:01] [OK] Desativado: Script Scanning
+[2026-06-23 14:29:01] [OK] Desativado: Protecao fornecida na nuvem (MAPS)
+[2026-06-23 14:29:01] [OK] Desativado: Envio automatico de amostra
+[2026-06-23 14:29:01] [OK] Desativado: Bloqueio de app potencialmente indesejado (PUA)
+[2026-06-23 14:29:01] [OK] Desativado: Acesso a pastas controladas (Ransomware)
+[2026-06-23 14:29:01] [WARN] Protecao em tempo real nao desativou via Set-MpPreference. Tentando via SYSTEM...
+[2026-06-23 14:29:07] [WARN] Protecao em tempo real resistiu. Aplicando via registro protegido...
+[2026-06-23 14:29:07] [ERROR] Registry write failed: HKLM:\SOFTWARE\Microsoft\Windows Defender\Real-Time Protection\DisableRealtimeMonitoring - O pedido de acesso ao Registo não é permitido.
+[2026-06-23 14:29:07] [WARN] Acesso negado. Tentando tomar posse da chave: HKLM:\SOFTWARE\Microsoft\Windows Defender\Real-Time Protection
+[2026-06-23 14:29:07] [ERROR] Falha mesmo apos tomar posse: HKLM:\SOFTWARE\Microsoft\Windows Defender\Real-Time Protection\DisableRealtimeMonitoring - Exception calling "OpenSubKey" with "3" argument(s): "O pedido de acesso ao Registo não é permitido."
+[2026-06-23 14:29:07] [OK] Desativado: Defender AntiSpyware via GPO
+[2026-06-23 14:29:07] [INFO] Aplicando fallbacks via GPO (registro) para protecao em tempo real...
+[2026-06-23 14:29:07] [OK] Desativado: Protecao em tempo real (GPO)
+[2026-06-23 14:29:07] [OK] Desativado: Monitoramento de comportamento (GPO)
+[2026-06-23 14:29:07] [OK] Desativado: Protecao de acesso (GPO)
+[2026-06-23 14:29:07] [OK] Desativado: Scan em tempo real (GPO)
+[2026-06-23 14:29:07] [OK] Desativado: Verificacao IOAV (GPO)
+[2026-06-23 14:29:07] [OK] Desativado: Cloud Protection e envio de amostras (GPO)
+[2026-06-23 14:29:07] [OK] Desativado: Defender AntiVirus/Actions/KeepAlive (GPO)
+[2026-06-23 14:29:07] [ERROR] Registry write failed: HKLM:\SYSTEM\CurrentControlSet\Services\WinDefend\Start - Tentativa de executar uma operação não autorizada.
+[2026-06-23 14:29:07] [WARN] Acesso negado. Tentando tomar posse da chave: HKLM:\SYSTEM\CurrentControlSet\Services\WinDefend
+[2026-06-23 14:29:07] [ERROR] Falha mesmo apos tomar posse: HKLM:\SYSTEM\CurrentControlSet\Services\WinDefend\Start - Exception calling "SetOwner" with "1" argument(s): "Não foi possível converter algumas ou nenhuma das referências."
+[2026-06-23 14:29:07] [WARN] Tentando WinDefend via SYSTEM...
+[2026-06-23 14:29:11] [OK] Desativado: Servico WinDefend via SYSTEM
+[2026-06-23 14:29:11] [INFO] === SmartScreen e Protecao de Reputacao ===
+[2026-06-23 14:29:11] [OK] Desativado: SmartScreen - Verificar aplicativos e arquivos
+[2026-06-23 14:29:11] [OK] Desativado: SmartScreen para Microsoft Edge
+[2026-06-23 14:29:11] [OK] Desativado: SmartScreen para Microsoft Edge (GPO)
+[2026-06-23 14:29:11] [OK] Desativado: SmartScreen para apps da Microsoft Store
+[2026-06-23 14:29:11] [OK] Desativado: SmartScreen via Group Policy
+[2026-06-23 14:29:11] [INFO] === Protecao contra Phishing ===
+[2026-06-23 14:29:11] [OK] Desativado: Protecao contra phishing (servico)
+[2026-06-23 14:29:11] [OK] Desativado: Aviso sobre sites/apps mal-intencionados
+[2026-06-23 14:29:11] [OK] Desativado: Aviso sobre reutilizacao de senha
+[2026-06-23 14:29:11] [OK] Desativado: Aviso sobre armazenamento inseguro de senha
+[2026-06-23 14:29:11] [OK] Desativado: Coleta automatica de conteudo para analise
+[2026-06-23 14:29:11] [INFO] === Exploit Protection ===
+[2026-06-23 14:29:11] [OK] Desativado: System Mitigation - DEP
+[2026-06-23 14:29:11] [OK] Desativado: System Mitigation - SEHOP
+[2026-06-23 14:29:11] [OK] Desativado: System Mitigation - CFG
+[2026-06-23 14:29:11] [OK] Desativado: System Mitigation - ForceRelocateImages
+[2026-06-23 14:29:11] [OK] Desativado: System Mitigation - TerminateOnError
+[2026-06-23 14:29:11] [OK] Desativado: System Mitigation - BottomUp
+[2026-06-23 14:29:11] [OK] Desativado: System Mitigation - HighEntropy
+[2026-06-23 14:29:11] [INFO] === Windows Firewall ===
+[2026-06-23 14:29:11] [OK] Desativado: Firewall perfil Domain
+[2026-06-23 14:29:11] [OK] Desativado: Firewall perfil Private
+[2026-06-23 14:29:11] [OK] Desativado: Firewall perfil Public
+[2026-06-23 14:29:11] [INFO] === User Account Control (UAC) ===
+[2026-06-23 14:29:11] [OK] Desativado: UAC (EnableLUA)
+[2026-06-23 14:29:11] [OK] Desativado: UAC Consent Prompt (Admin)
+[2026-06-23 14:29:12] [OK] Desativado: UAC Secure Desktop
+[2026-06-23 14:29:12] [OK] Desativado: UAC Installer Detection
+[2026-06-23 14:29:12] [OK] Desativado: UAC Virtualization
+[2026-06-23 14:29:12] [INFO] === Windows Update - Atrasar atualizacoes de seguranca ===
+[2026-06-23 14:29:12] [OK] Configurado: Desativar atualizacoes automaticas
+[2026-06-23 14:29:12] [OK] Configurado: Adiar atualizacoes de qualidade
+[2026-06-23 14:29:12] [OK] Configurado: Atraso de atualizacoes de qualidade (30 dias)
+[2026-06-23 14:29:12] [INFO] === Dev Drive Protection ===
+[2026-06-23 14:29:12] [OK] Desativado: Dev Drive Protection (async scan)
+[2026-06-23 14:29:12] [INFO] === Servicos de seguranca ===
+[2026-06-23 14:29:12] [OK] Desativado: Windows Defender Network Inspection Service
+[2026-06-23 14:29:12] [OK] Desativado: Windows Security Health Service
+[2026-06-23 14:29:12] [OK] Desativado: Security Center Service
+[2026-06-23 14:29:12] [OK] Desativado: Windows Defender Mini-Filter Driver
+[2026-06-23 14:29:12] [INFO] Total: 52 | Desativados: 51 | Falhas: 0 | WhatIf: 0
+[2026-06-23 14:29:12] [INFO] Log salvo em: E:\manut\Configurations\lowestSecurity\core\..\disable-security_20260623_142849.log
+[2026-06-23 14:29:12] [WARN] IMPORTANTE: Algumas alteracoes requerem reinicializacao (UAC, servicos).
+[2026-06-23 14:29:12] [WARN] Execute 'shutdown /r /t 60 /c Security Test Reboot' para reiniciar em 60 segundos.

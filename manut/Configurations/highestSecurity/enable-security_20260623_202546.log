@@ -1,0 +1,60 @@
+[2026-06-23 20:25:46] [INFO] Iniciando reativacao de seguranca...
+[2026-06-23 20:25:46] [INFO] Modo WhatIf: False
+[2026-06-23 20:25:46] [INFO] === Microsoft Defender Antivirus ===
+[2026-06-23 20:25:48] [OK] Ativado: Protecao em tempo real
+[2026-06-23 20:25:48] [OK] Ativado: Monitoramento de comportamento
+[2026-06-23 20:25:48] [OK] Ativado: Block at First Seen
+[2026-06-23 20:25:48] [OK] Ativado: Verificacao de downloads (IOAV)
+[2026-06-23 20:25:48] [OK] Ativado: Script Scanning
+[2026-06-23 20:25:48] [OK] Ativado: Protecao fornecida na nuvem (MAPS Advanced)
+[2026-06-23 20:25:48] [OK] Ativado: Envio automatico de amostra (Safe Samples)
+[2026-06-23 20:25:48] [OK] Ativado: Bloqueio de app potencialmente indesejado (PUA)
+[2026-06-23 20:25:48] [OK] Ativado: Acesso a pastas controladas (Ransomware)
+[2026-06-23 20:25:48] [OK] Removido: Defender AntiSpyware GPO override (restaura padrao)
+[2026-06-23 20:25:48] [INFO] === SmartScreen e Protecao de Reputacao ===
+[2026-06-23 20:25:48] [OK] Ativado: SmartScreen - Verificar aplicativos e arquivos
+[2026-06-23 20:25:48] [OK] Ativado: SmartScreen para Microsoft Edge
+[2026-06-23 20:25:48] [OK] Ativado: SmartScreen para Microsoft Edge (GPO)
+[2026-06-23 20:25:48] [OK] Ativado: SmartScreen para apps da Microsoft Store
+[2026-06-23 20:25:48] [OK] Removido: SmartScreen GPO override (restaura padrao ativado)
+[2026-06-23 20:25:48] [INFO] === Protecao contra Phishing ===
+[2026-06-23 20:25:48] [OK] Ativado: Protecao contra phishing (servico)
+[2026-06-23 20:25:48] [OK] Ativado: Aviso sobre sites/apps mal-intencionados
+[2026-06-23 20:25:48] [OK] Ativado: Aviso sobre reutilizacao de senha
+[2026-06-23 20:25:48] [OK] Ativado: Aviso sobre armazenamento inseguro de senha
+[2026-06-23 20:25:48] [OK] Ativado: Coleta automatica de conteudo para analise
+[2026-06-23 20:25:48] [INFO] === Exploit Protection ===
+[2026-06-23 20:25:49] [OK] Ativado: System Mitigation - DEP
+[2026-06-23 20:25:49] [OK] Ativado: System Mitigation - SEHOP
+[2026-06-23 20:25:49] [OK] Ativado: System Mitigation - CFG
+[2026-06-23 20:25:49] [OK] Ativado: System Mitigation - ForceRelocateImages
+[2026-06-23 20:25:49] [OK] Ativado: System Mitigation - TerminateOnError
+[2026-06-23 20:25:49] [OK] Ativado: System Mitigation - BottomUp
+[2026-06-23 20:25:49] [OK] Ativado: System Mitigation - HighEntropy
+[2026-06-23 20:25:49] [INFO] === Windows Firewall ===
+[2026-06-23 20:25:51] [OK] Ativado: Firewall perfil Domain
+[2026-06-23 20:25:51] [OK] Ativado: Firewall perfil Private
+[2026-06-23 20:25:51] [OK] Ativado: Firewall perfil Public
+[2026-06-23 20:25:51] [INFO] === User Account Control (UAC) ===
+[2026-06-23 20:25:51] [OK] Ativado: UAC (EnableLUA)
+[2026-06-23 20:25:51] [OK] Ativado: UAC Consent Prompt (Admin - Prompt for consent)
+[2026-06-23 20:25:51] [OK] Ativado: UAC Secure Desktop
+[2026-06-23 20:25:51] [OK] Ativado: UAC Installer Detection
+[2026-06-23 20:25:51] [OK] Ativado: UAC Virtualization
+[2026-06-23 20:25:51] [INFO] === Windows Update - Restaurar atualizacoes automaticas ===
+[2026-06-23 20:25:51] [OK] Restaurado: Restaurar atualizacoes automaticas
+[2026-06-23 20:25:51] [OK] Restaurado: Remover adiamento de atualizacoes de qualidade
+[2026-06-23 20:25:51] [OK] Restaurado: Remover atraso de atualizacoes de qualidade
+[2026-06-23 20:25:51] [INFO] === Dev Drive Protection ===
+[2026-06-23 20:25:51] [OK] Ativado: Dev Drive Protection (restaurado padrao)
+[2026-06-23 20:25:51] [INFO] === Servicos de seguranca ===
+[2026-06-23 20:25:52] [OK] Ativado: Windows Defender Network Inspection Service (StartupType: Manual)
+[2026-06-23 20:25:52] [OK] Ativado: Windows Security Health Service (StartupType: Manual)
+[2026-06-23 20:25:52] [OK] Ativado: Security Center Service (StartupType: Automatic)
+[2026-06-23 20:25:52] [OK] Ativado: Windows Defender Mini-Filter Driver (StartupType: Automatic)
+[2026-06-23 20:25:52] [INFO] === Atualizacao de assinaturas do Defender ===
+[2026-06-23 20:25:52] [OK] Assinaturas do Defender atualizadas com sucesso
+[2026-06-23 20:25:52] [INFO] Total: 44 | Ativados: 43 | Atualizados: 1 | Falhas: 0 | WhatIf: 0
+[2026-06-23 20:25:52] [INFO] Log salvo em: E:\manut\Configurations\highestSecurity\core\..\enable-security_20260623_202546.log
+[2026-06-23 20:25:52] [WARN] IMPORTANTE: Algumas alteracoes requerem reinicializacao (UAC, servicos).
+[2026-06-23 20:25:52] [WARN] Execute 'shutdown /r /t 60 /c Security Restore Reboot' para reiniciar em 60 segundos.

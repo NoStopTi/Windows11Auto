@@ -1,0 +1,64 @@
+[2026-06-23 13:20:20] [INFO] Iniciando desativacao de seguranca...
+[2026-06-23 13:20:20] [INFO] Modo WhatIf: False
+[2026-06-23 13:20:20] [WARN] Tamper Protection esta ATIVADA. Algumas configuracoes do Defender so podem ser alteradas manualmente.
+[2026-06-23 13:20:20] [WARN] Para desativar: Windows Security > Virus & threat protection > Manage settings > Tamper Protection > Off
+[2026-06-23 13:20:20] [WARN] ATENCAO: Tamper Protection ativa. Desative-a manualmente antes de executar este script.
+[2026-06-23 13:20:20] [WARN] Windows Security > Virus & threat protection > Manage settings > Tamper Protection > Off
+[2026-06-23 13:20:20] [INFO] Exportando estado atual das configuracoes para: C:\Users\adm02\Desktop\crack\win\lowestSecurity\core\..\security-state-backup_20260623_132020.json
+[2026-06-23 13:20:20] [OK] Backup do estado salvo com sucesso
+[2026-06-23 13:20:20] [INFO] === Microsoft Defender Antivirus ===
+[2026-06-23 13:20:20] [OK] Desativado: Protecao em tempo real
+[2026-06-23 13:20:20] [OK] Desativado: Monitoramento de comportamento
+[2026-06-23 13:20:20] [OK] Desativado: Block at First Seen
+[2026-06-23 13:20:20] [OK] Desativado: Verificacao de downloads (IOAV)
+[2026-06-23 13:20:20] [OK] Desativado: Script Scanning
+[2026-06-23 13:20:20] [OK] Desativado: Protecao fornecida na nuvem (MAPS)
+[2026-06-23 13:20:20] [OK] Desativado: Envio automatico de amostra
+[2026-06-23 13:20:21] [OK] Desativado: Bloqueio de app potencialmente indesejado (PUA)
+[2026-06-23 13:20:21] [OK] Desativado: Acesso a pastas controladas (Ransomware)
+[2026-06-23 13:20:21] [OK] Desativado: Defender AntiSpyware via GPO
+[2026-06-23 13:20:21] [INFO] === SmartScreen e Protecao de Reputacao ===
+[2026-06-23 13:20:21] [OK] Desativado: SmartScreen - Verificar aplicativos e arquivos
+[2026-06-23 13:20:21] [OK] Desativado: SmartScreen para Microsoft Edge
+[2026-06-23 13:20:21] [OK] Desativado: SmartScreen para Microsoft Edge (GPO)
+[2026-06-23 13:20:21] [OK] Desativado: SmartScreen para apps da Microsoft Store
+[2026-06-23 13:20:21] [OK] Desativado: SmartScreen via Group Policy
+[2026-06-23 13:20:21] [INFO] === Protecao contra Phishing ===
+[2026-06-23 13:20:21] [OK] Desativado: Protecao contra phishing (servico)
+[2026-06-23 13:20:21] [OK] Desativado: Aviso sobre sites/apps mal-intencionados
+[2026-06-23 13:20:21] [OK] Desativado: Aviso sobre reutilizacao de senha
+[2026-06-23 13:20:21] [OK] Desativado: Aviso sobre armazenamento inseguro de senha
+[2026-06-23 13:20:21] [OK] Desativado: Coleta automatica de conteudo para analise
+[2026-06-23 13:20:21] [INFO] === Exploit Protection ===
+[2026-06-23 13:20:21] [OK] Desativado: System Mitigation - DEP
+[2026-06-23 13:20:21] [OK] Desativado: System Mitigation - SEHOP
+[2026-06-23 13:20:21] [OK] Desativado: System Mitigation - CFG
+[2026-06-23 13:20:21] [OK] Desativado: System Mitigation - ForceRelocateImages
+[2026-06-23 13:20:21] [OK] Desativado: System Mitigation - TerminateOnError
+[2026-06-23 13:20:21] [OK] Desativado: System Mitigation - BottomUp
+[2026-06-23 13:20:21] [OK] Desativado: System Mitigation - HighEntropy
+[2026-06-23 13:20:21] [INFO] === Windows Firewall ===
+[2026-06-23 13:20:21] [OK] Desativado: Firewall perfil Domain
+[2026-06-23 13:20:21] [OK] Desativado: Firewall perfil Private
+[2026-06-23 13:20:21] [OK] Desativado: Firewall perfil Public
+[2026-06-23 13:20:21] [INFO] === User Account Control (UAC) ===
+[2026-06-23 13:20:21] [OK] Desativado: UAC (EnableLUA)
+[2026-06-23 13:20:21] [OK] Desativado: UAC Consent Prompt (Admin)
+[2026-06-23 13:20:21] [OK] Desativado: UAC Secure Desktop
+[2026-06-23 13:20:21] [OK] Desativado: UAC Installer Detection
+[2026-06-23 13:20:21] [OK] Desativado: UAC Virtualization
+[2026-06-23 13:20:21] [INFO] === Windows Update - Atrasar atualizacoes de seguranca ===
+[2026-06-23 13:20:21] [OK] Configurado: Desativar atualizacoes automaticas
+[2026-06-23 13:20:21] [OK] Configurado: Adiar atualizacoes de qualidade
+[2026-06-23 13:20:21] [OK] Configurado: Atraso de atualizacoes de qualidade (30 dias)
+[2026-06-23 13:20:21] [INFO] === Dev Drive Protection ===
+[2026-06-23 13:20:21] [OK] Desativado: Dev Drive Protection (async scan)
+[2026-06-23 13:20:21] [INFO] === Servicos de seguranca ===
+[2026-06-23 13:20:21] [OK] Desativado: Windows Defender Network Inspection Service
+[2026-06-23 13:20:21] [OK] Desativado: Windows Security Health Service
+[2026-06-23 13:20:21] [OK] Desativado: Security Center Service
+[2026-06-23 13:20:21] [OK] Desativado: Windows Defender Mini-Filter Driver
+[2026-06-23 13:20:21] [INFO] Total: 43 | Desativados: 43 | Falhas: 0 | WhatIf: 0
+[2026-06-23 13:20:21] [INFO] Log salvo em: C:\Users\adm02\Desktop\crack\win\lowestSecurity\core\..\disable-security_20260623_132020.log
+[2026-06-23 13:20:21] [WARN] IMPORTANTE: Algumas alteracoes requerem reinicializacao (UAC, servicos).
+[2026-06-23 13:20:21] [WARN] Execute 'shutdown /r /t 60 /c Security Test Reboot' para reiniciar em 60 segundos.
