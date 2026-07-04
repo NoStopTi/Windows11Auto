@@ -1,0 +1,20 @@
+# Ignora tudo na raiz do pendrive por padrao
+/*
+
+# Excecao: mantem este proprio arquivo de regras
+!/.gitignore
+
+# Excecao: mantem o arquivo de resposta de instalacao desatendida
+!/autounattend.xml
+
+# Excecao: mantem o README do repositorio
+!/README.md
+
+# Excecao: mantem a arvore do projeto manut
+!/manut/
+
+# Dentro de manut, ignora o cache de instaladores offline (arquivos binarios grandes)
+/manut/Auto/OFFLINE/
+
+# Nunca versionar segredos em texto puro (senhas de admin/adm01/usuario padrao)
+/manut/Core/secure/
