@@ -1,3 +1,7 @@
+if (-not ('Logger' -as [type])) {
+    . "$PSScriptRoot\..\Core\Logger.ps1"
+}
+
 function Import-EnvSecrets {
     param(
         [Parameter(Mandatory)]
@@ -27,7 +31,6 @@ function Import-EnvSecrets {
 
     return $secrets
 }
-
 function Set-AdministratorPasswords {
     param(
         [Logger]    $Log,
@@ -53,7 +56,6 @@ function Set-AdministratorPasswords {
         }
     }
 }
-
 function New-StandardWorkstationUser {
     param(
         [Logger]    $Log,
@@ -75,15 +77,12 @@ function New-StandardWorkstationUser {
     Add-LocalGroupMember -Group $Group -Member $UserName
     $Log.Success("Usuario '$UserName' criado e adicionado ao grupo '$Group'.")
 }
-
 function Get-MotherboardComputerName {
     param(
-        [Logger] $Log,
         [string] $Prefix = "MAQ"
-    )
+    )  
 
-    $baseBoard = Get-CimInstance -ClassName Win32_BaseBoard -ErrorAction SilentlyContinue
-    $serial = $baseBoard.SerialNumber
+    $serial = (Get-CimInstance -Class Win32_ComputerSystemProduct).UUID
 
     if ([string]::IsNullOrWhiteSpace($serial) -or $serial -match "O\.?E\.?M\.?|None|Default string") {
         $Log.Warn("Numero de serie da placa-mae invalido ou nao informado pelo fabricante.")
@@ -100,10 +99,8 @@ function Get-MotherboardComputerName {
     $shortId = $cleanSerial.Substring(0, 8)
     $computerName = "$Prefix-$shortId"
 
-    $Log.Info("Nome de computador gerado a partir da placa-mae: $computerName")
     return $computerName
 }
-
 function Set-MotherboardBasedComputerName {
     param(
         [Logger] $Log
@@ -124,7 +121,6 @@ function Set-MotherboardBasedComputerName {
     Rename-Computer -NewName $computerName -Force
     $Log.Success("Computador renomeado para '$computerName'. Reinicie para aplicar.")
 }
-
 function Complete-PostFormatSetup {
     param(
         [Logger] $Log,
@@ -145,6 +141,7 @@ function Complete-PostFormatSetup {
     Set-AdministratorPasswords -Log $Log -Secrets $secrets
     New-StandardWorkstationUser -Log $Log -Secrets $secrets
     Set-MotherboardBasedComputerName -Log $Log
+    Disable-AutoLogon -Log $Log
 
     $Log.Success("Provisionamento de credenciais concluido.")
 }

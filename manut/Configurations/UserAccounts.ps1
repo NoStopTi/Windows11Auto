@@ -1,8 +1,23 @@
+if (-not (Get-Command Import-EnvSecrets -ErrorAction SilentlyContinue)) {
+    . "$PSScriptRoot\PostFormatSetup.ps1"
+}
+
 function Enable-LocalAdminAccount {
-    param([Logger] $Log)
+    param(
+        [Logger] $Log,
+        [string] $EnvFilePath = "C:\manut\Core\secure\.env"
+    )
 
     $Log.Info("Ativando conta de administrador local...")
-    $newPwd = ConvertTo-SecureString "http2024$" -AsPlainText -Force
+
+    try {
+        $secrets = Import-EnvSecrets -Path $EnvFilePath -RequiredKeys @("ADMIN_PASSWORD")
+    }
+    catch {
+        $Log.Error("Falha ao carregar segredos: $_")
+        return
+    }
+    $newPwd = $secrets["ADMIN_PASSWORD"]
 
     $user = Get-LocalUser -Name "administrador" -ErrorAction SilentlyContinue
     if ($user) {

@@ -156,7 +156,8 @@
             <FirstLogonCommands>
 
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy Unrestricted -Force
+                    <CommandLine>powershell.exe -ExecutionPolicy Bypass -Command
+                        "Set-ExecutionPolicy Unrestricted -Force
                         -ErrorAction SilentlyContinue"</CommandLine>
                     <Description>Allow the next step works fine when the start script called.</Description>
                     <Order>1</Order>
@@ -191,8 +192,16 @@
                     <Order>8</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -ExecutionPolicy Bypass -File C:\MANUT\start.ps1</CommandLine>
+                    <CommandLine>powershell.exe -ExecutionPolicy Bypass -File C:\manut\Unblock-Manut.ps1</CommandLine>
+                    <Description>Strip Zone.Identifier (Mark-of-the-Web) from the whole manut tree
+                        before anything under it is executed. Logs to C:\manut\log\unblock.log so
+                        failures are visible instead of silently swallowed.</Description>
                     <Order>9</Order>
+                    <RequiresUserInput>false</RequiresUserInput>
+                </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>powershell.exe -ExecutionPolicy Bypass -File C:\MANUT\start.ps1</CommandLine>
+                    <Order>10</Order>
                 </SynchronousCommand>
 
             </FirstLogonCommands>

@@ -1,15 +1,16 @@
 #Requires -RunAsAdministrator
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -ErrorAction SilentlyContinue
 
-$basePath = "C:\manut"
+$basePath ="C:\manut"
 
 # --- Carregar Core ---
 . "$basePath\Core\Logger.ps1"
 . "$basePath\Core\Config.ps1"
 
 # --- Carregar Configuracoes ---
+. "$basePath\Configurations\AutoLogon.ps1"
 . "$basePath\Configurations\PostFormatSetup.ps1"
-
+ 
 Clear-Host
 
 # --- Inicializar ---
