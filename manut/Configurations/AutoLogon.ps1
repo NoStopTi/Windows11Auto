@@ -21,13 +21,13 @@ function Enable-AutoLogon {
         [string] $EnvFilePath = "C:\manut\Core\secure\.env"
     )
 
-    $Log.Info("Configurando Auto Logon para '$Username'...")
+    $Log.Info("Configuring Auto Logon for '$Username'...")
 
     try {
         $secrets = Import-EnvSecrets -Path $EnvFilePath -RequiredKeys @("ADM01_PASSWORD")
     }
     catch {
-        $Log.Error("Falha ao carregar segredos: $_")
+        $Log.Error("Failed to load secrets: $_")
         return
     }
     $Password = ConvertFrom-SecureStringToPlainText -SecureString $secrets["ADM01_PASSWORD"]
@@ -45,17 +45,17 @@ function Enable-AutoLogon {
         New-ItemProperty -Path $regPath -Name "DefaultPassword" -Value $Password -PropertyType String -Force | Out-Null
     }
 
-    $Log.Success("Auto Logon configurado para '$Username'.")
+    $Log.Success("Auto Logon configured for '$Username'.")
 }
 
 function Disable-AutoLogon {
     param([Logger] $Log)
 
-    $Log.Info("Desativando Auto Logon...")
+    $Log.Info("Disabling Auto Logon...")
     $regPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 
     Set-ItemProperty -Path $regPath -Name "AutoAdminLogon" -Value "0"
     Remove-ItemProperty -Path $regPath -Name "DefaultPassword" -ErrorAction SilentlyContinue
 
-    $Log.Success("Auto Logon desativado.")
+    $Log.Success("Auto Logon disabled.")
 }

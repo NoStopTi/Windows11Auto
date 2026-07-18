@@ -8,7 +8,7 @@ function Set-WorkstationTaskbar {
     $lnkDir   = Join-Path $Config.ConfigPath "barraDeTarefas\workStation\TaskBar"
     $targetDir = "$env:USERPROFILE\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar"
 
-    $Log.Info("Configurando barra de tarefas...")
+    $Log.Info("Configuring taskbar...")
 
     if (Test-Path $regFile) {
         regedit /s $regFile
@@ -18,5 +18,5 @@ function Set-WorkstationTaskbar {
         Copy-Item -Path "$lnkDir\*.*" -Destination $targetDir -Force -ErrorAction SilentlyContinue
     }
 
-    $Log.Success("Barra de tarefas configurada.")
+    $Log.Success("Taskbar configured.")
 }

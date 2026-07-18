@@ -1,7 +1,7 @@
 function Enable-SmartScreen {
     param([switch]$WhatIf)
 
-    Write-Log "=== SmartScreen e Protecao de Reputacao ==="
+    Write-Log "=== SmartScreen and Reputation Protection ==="
 
     $regSettings = @(
         @{
@@ -9,41 +9,41 @@ function Enable-SmartScreen {
             Name  = 'SmartScreenEnabled'
             Value = 'Warn'
             Type  = 'String'
-            Label = 'SmartScreen - Verificar aplicativos e arquivos'
+            Label = 'SmartScreen - Check apps and files'
         }
         @{
             Path  = 'HKCU:\SOFTWARE\Microsoft\Edge\SmartScreenEnabled'
             Name  = '(Default)'
             Value = 1
             Type  = 'DWord'
-            Label = 'SmartScreen para Microsoft Edge'
+            Label = 'SmartScreen for Microsoft Edge'
         }
         @{
             Path  = 'HKLM:\SOFTWARE\Policies\Microsoft\Edge'
             Name  = 'SmartScreenEnabled'
             Value = 1
             Type  = 'DWord'
-            Label = 'SmartScreen para Microsoft Edge (GPO)'
+            Label = 'SmartScreen for Microsoft Edge (GPO)'
         }
         @{
             Path  = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost'
             Name  = 'EnableWebContentEvaluation'
             Value = 1
             Type  = 'DWord'
-            Label = 'SmartScreen para apps da Microsoft Store'
+            Label = 'SmartScreen for Microsoft Store apps'
         }
     )
 
     foreach ($r in $regSettings) {
         if ($WhatIf) {
-            Write-Log "[WHATIF] Ativaria: $($r.Label)"
+            Write-Log "[WHATIF] Would enable: $($r.Label)"
             Add-Result 'SmartScreen' $r.Label 'WHATIF'
             continue
         }
         if ($r.Name -eq '(Default)') {
             $ok = Set-RegistryDefaultValue $r.Path $r.Value
             if ($ok) {
-                Write-Log "Ativado: $($r.Label)" -Level 'OK'
+                Write-Log "Enabled: $($r.Label)" -Level 'OK'
                 Add-Result 'SmartScreen' $r.Label 'ENABLED'
             }
             else {
@@ -53,7 +53,7 @@ function Enable-SmartScreen {
         else {
             $ok = Set-RegistryValue $r.Path $r.Name $r.Value $r.Type
             if ($ok) {
-                Write-Log "Ativado: $($r.Label)" -Level 'OK'
+                Write-Log "Enabled: $($r.Label)" -Level 'OK'
                 Add-Result 'SmartScreen' $r.Label 'ENABLED'
             }
             else {
@@ -64,7 +64,7 @@ function Enable-SmartScreen {
 
     if (-not $WhatIf) {
         Remove-RegistryValue 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' 'EnableSmartScreen'
-        Write-Log "Removido: SmartScreen GPO override (restaura padrao ativado)" -Level 'OK'
-        Add-Result 'SmartScreen' 'SmartScreen GPO override removido' 'ENABLED'
+        Write-Log "Removed: SmartScreen GPO override (restores default enabled)" -Level 'OK'
+        Add-Result 'SmartScreen' 'SmartScreen GPO override removed' 'ENABLED'
     }
 }

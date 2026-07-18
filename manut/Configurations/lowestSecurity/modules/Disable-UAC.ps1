@@ -14,13 +14,13 @@ function Disable-UAC {
 
     foreach ($s in $settings) {
         if ($WhatIf) {
-            Write-Log "[WHATIF] Desativaria: $($s.Label)"
+            Write-Log "[WHATIF] Would disable: $($s.Label)"
             Add-Result 'UAC' $s.Label 'WHATIF'
             continue
         }
         $ok = Set-RegistryValue $uacPath $s.Name $s.Value
         if ($ok) {
-            Write-Log "Desativado: $($s.Label)" -Level 'OK'
+            Write-Log "Disabled: $($s.Label)" -Level 'OK'
             Add-Result 'UAC' $s.Label 'DISABLED'
         }
         else {

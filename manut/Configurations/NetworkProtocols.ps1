@@ -8,7 +8,7 @@ function Disable-UnusedProtocols {
         @{ Id = "ms_lldp";   Name = "LLDP" }
     )
 
-    $Log.Info("Desabilitando protocolos de rede desnecessarios...")
+    $Log.Info("Disabling unnecessary network protocols...")
     $adapters = Get-NetAdapter -Name "*"
 
     foreach ($adapter in $adapters) {
@@ -16,5 +16,5 @@ function Disable-UnusedProtocols {
             Disable-NetAdapterBinding -Name $adapter.Name -ComponentID $proto.Id -ErrorAction SilentlyContinue
         }
     }
-    $Log.Success("Protocolos desabilitados em todos os adaptadores.")
+    $Log.Success("Protocols disabled on all adapters.")
 }

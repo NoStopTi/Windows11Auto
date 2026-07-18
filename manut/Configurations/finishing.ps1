@@ -3,23 +3,23 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -ErrorAction SilentlyCo
 
 $basePath ="C:\manut"
 
-# --- Carregar Core ---
+# --- Load Core ---
 . "$basePath\Core\Logger.ps1"
 . "$basePath\Core\Config.ps1"
 
-# --- Carregar Configuracoes ---
+# --- Load Configurations ---
 . "$basePath\Configurations\AutoLogon.ps1"
 . "$basePath\Configurations\PostFormatSetup.ps1"
- 
+
 Clear-Host
 
-# --- Inicializar ---
+# --- Initialize ---
 $config = [AppConfig]::new()
 $logger = [Logger]::new($config.LogPath)
 $osCaption = (Get-CimInstance -ClassName Win32_OperatingSystem).Caption
 
 $logger.Info("============================================")
-$logger.Info("  SCRIPT DE FINALIZACAO POS-FORMATACAO")
+$logger.Info("  POST-FORMAT FINISHING SCRIPT")
 $logger.Info("  OS: $osCaption")
 $logger.Info("============================================")
 
@@ -27,5 +27,5 @@ if ($osCaption -match "Windows 1[01] (Pro|Home)") {
     Complete-PostFormatSetup -Log $logger
 }
 else {
-    $logger.Warn("Sistema operacional nao suportado pelo script de finalizacao: $osCaption")
+    $logger.Warn("Operating system not supported by the finishing script: $osCaption")
 }

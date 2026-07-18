@@ -11,7 +11,7 @@ function Import-EnvSecrets {
     )
 
     if (-not (Test-Path $Path)) {
-        throw "Arquivo de segredos nao encontrado: $Path"
+        throw "Secrets file not found: $Path"
     }
 
     $secrets = @{}
@@ -25,7 +25,7 @@ function Import-EnvSecrets {
 
     foreach ($key in $RequiredKeys) {
         if (-not $secrets.ContainsKey($key)) {
-            throw "Chave obrigatoria ausente no arquivo de segredos: $key"
+            throw "Required key missing from secrets file: $key"
         }
     }
 
@@ -39,20 +39,20 @@ function Set-AdministratorPasswords {
 
     $adm01 = Get-LocalUser -Name "adm01" -ErrorAction SilentlyContinue
     if ($adm01) {
-        $Log.Info("Atualizando senha da conta 'adm01'...")
+        $Log.Info("Updating password for account 'adm01'...")
         Set-LocalUser -Name "adm01" -Password $Secrets["ADM01_PASSWORD"]
-        $Log.Success("Senha de 'adm01' atualizada.")
+        $Log.Success("Password for 'adm01' updated.")
     }
     else {
-        $Log.Warn("Conta 'adm01' nao encontrada. Pulando.")
+        $Log.Warn("Account 'adm01' not found. Skipping.")
     }
 
     foreach ($name in @("Administrator", "Administrador")) {
         $account = Get-LocalUser -Name $name -ErrorAction SilentlyContinue
         if ($account) {
-            $Log.Info("Atualizando senha da conta '$name'...")
+            $Log.Info("Updating password for account '$name'...")
             Set-LocalUser -Name $name -Password $Secrets["ADMIN_PASSWORD"]
-            $Log.Success("Senha de '$name' atualizada.")
+            $Log.Success("Password for '$name' updated.")
         }
     }
 }
@@ -67,15 +67,15 @@ function New-StandardWorkstationUser {
 
     $existing = Get-LocalUser -Name $UserName -ErrorAction SilentlyContinue
     if ($existing) {
-        $Log.Warn("Usuario '$UserName' ja existe. Pulando criacao.")
+        $Log.Warn("User '$UserName' already exists. Skipping creation.")
         return
     }
 
-    $Log.Info("Criando usuario padrao '$UserName'...")
+    $Log.Info("Creating standard user '$UserName'...")
     New-LocalUser -Name $UserName -Password $Secrets["STANDARD_USER_PASSWORD"] `
         -FullName $FullName -Description "Standard limited user" | Out-Null
     Add-LocalGroupMember -Group $Group -Member $UserName
-    $Log.Success("Usuario '$UserName' criado e adicionado ao grupo '$Group'.")
+    $Log.Success("User '$UserName' created and added to group '$Group'.")
 }
 function Get-MotherboardComputerName {
     param(
@@ -85,14 +85,14 @@ function Get-MotherboardComputerName {
     $serial = (Get-CimInstance -Class Win32_ComputerSystemProduct).UUID
 
     if ([string]::IsNullOrWhiteSpace($serial) -or $serial -match "O\.?E\.?M\.?|None|Default string") {
-        $Log.Warn("Numero de serie da placa-mae invalido ou nao informado pelo fabricante.")
+        $Log.Warn("Motherboard serial number is invalid or not provided by the manufacturer.")
         return $null
     }
 
     $cleanSerial = ($serial -replace '[^A-Za-z0-9]', '').ToUpper()
 
     if ($cleanSerial.Length -lt 8) {
-        $Log.Warn("Numero de serie da placa-mae tem menos de 8 caracteres uteis: '$cleanSerial'.")
+        $Log.Warn("Motherboard serial number has fewer than 8 usable characters: '$cleanSerial'.")
         return $null
     }
 
@@ -108,18 +108,18 @@ function Set-MotherboardBasedComputerName {
 
     $computerName = Get-MotherboardComputerName -Log $Log
     if (-not $computerName) {
-        $Log.Warn("Renomeacao de computador pulada: nao foi possivel gerar um nome valido.")
+        $Log.Warn("Computer rename skipped: could not generate a valid name.")
         return
     }
 
     if ($env:COMPUTERNAME -eq $computerName) {
-        $Log.Info("Computador ja esta nomeado como '$computerName'. Nenhuma acao necessaria.")
+        $Log.Info("Computer is already named '$computerName'. No action needed.")
         return
     }
 
-    $Log.Info("Renomeando computador para '$computerName'...")
+    $Log.Info("Renaming computer to '$computerName'...")
     Rename-Computer -NewName $computerName -Force
-    $Log.Success("Computador renomeado para '$computerName'. Reinicie para aplicar.")
+    $Log.Success("Computer renamed to '$computerName'. Restart to apply.")
 }
 function Complete-PostFormatSetup {
     param(
@@ -129,12 +129,12 @@ function Complete-PostFormatSetup {
 
     $requiredKeys = @("ADM01_PASSWORD", "ADMIN_PASSWORD", "STANDARD_USER_PASSWORD")
 
-    $Log.Info("Carregando segredos de '$EnvFilePath'...")
+    $Log.Info("Loading secrets from '$EnvFilePath'...")
     try {
         $secrets = Import-EnvSecrets -Path $EnvFilePath -RequiredKeys $requiredKeys
     }
     catch {
-        $Log.Error("Falha ao carregar segredos: $_")
+        $Log.Error("Failed to load secrets: $_")
         return
     }
 
@@ -143,5 +143,5 @@ function Complete-PostFormatSetup {
     Set-MotherboardBasedComputerName -Log $Log
     Disable-AutoLogon -Log $Log
 
-    $Log.Success("Provisionamento de credenciais concluido.")
+    $Log.Success("Credential provisioning complete.")
 }

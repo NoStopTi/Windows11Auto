@@ -1,26 +1,26 @@
 function Disable-PhishingProtection {
     param([switch]$WhatIf)
 
-    Write-Log "=== Protecao contra Phishing ==="
+    Write-Log "=== Phishing Protection ==="
 
     $basePath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WTDS\Components'
     $settings = @(
-        @{ Name = 'ServiceEnabled';      Value = 0; Label = 'Protecao contra phishing (servico)' }
-        @{ Name = 'NotifyMalicious';     Value = 0; Label = 'Aviso sobre sites/apps mal-intencionados' }
-        @{ Name = 'NotifyPasswordReuse'; Value = 0; Label = 'Aviso sobre reutilizacao de senha' }
-        @{ Name = 'NotifyUnsafeApp';     Value = 0; Label = 'Aviso sobre armazenamento inseguro de senha' }
-        @{ Name = 'CaptureThreatWindow'; Value = 0; Label = 'Coleta automatica de conteudo para analise' }
+        @{ Name = 'ServiceEnabled';      Value = 0; Label = 'Phishing protection (service)' }
+        @{ Name = 'NotifyMalicious';     Value = 0; Label = 'Warning about malicious sites/apps' }
+        @{ Name = 'NotifyPasswordReuse'; Value = 0; Label = 'Warning about password reuse' }
+        @{ Name = 'NotifyUnsafeApp';     Value = 0; Label = 'Warning about unsafe password storage' }
+        @{ Name = 'CaptureThreatWindow'; Value = 0; Label = 'Automatic content capture for analysis' }
     )
 
     foreach ($s in $settings) {
         if ($WhatIf) {
-            Write-Log "[WHATIF] Desativaria: $($s.Label)"
+            Write-Log "[WHATIF] Would disable: $($s.Label)"
             Add-Result 'Phishing' $s.Label 'WHATIF'
             continue
         }
         $ok = Set-RegistryValue $basePath $s.Name $s.Value
         if ($ok) {
-            Write-Log "Desativado: $($s.Label)" -Level 'OK'
+            Write-Log "Disabled: $($s.Label)" -Level 'OK'
             Add-Result 'Phishing' $s.Label 'DISABLED'
         }
         else {

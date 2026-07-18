@@ -8,7 +8,7 @@ function Register-FinishingScript {
     $value = "cmd /c start powershell $($Config.BasePath)\Configurations\finishing.ps1"
     $path  = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce"
 
-    $Log.Info("Registrando script de finalizacao no RunOnce...")
+    $Log.Info("Registering finishing script in RunOnce...")
     $existing = Get-ItemProperty -Path $path -Name $name -ErrorAction SilentlyContinue
     if ($existing) {
         Set-ItemProperty -Path $path -Name $name -Value $value
@@ -16,5 +16,5 @@ function Register-FinishingScript {
     else {
         New-ItemProperty -Path $path -Name $name -Value $value | Out-Null
     }
-    $Log.Success("Script de finalizacao registrado.")
+    $Log.Success("Finishing script registered.")
 }

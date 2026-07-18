@@ -1,7 +1,7 @@
 function Set-Windows10Tweaks {
     param([Logger] $Log)
 
-    $Log.Info("Aplicando ajustes Windows 10...")
+    $Log.Info("Applying Windows 10 tweaks...")
 
     $searchPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"
     if (-not (Test-Path $searchPath)) {
@@ -14,18 +14,18 @@ function Set-Windows10Tweaks {
         Set-ItemProperty -Path "Registry::HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds" -Name "ShellFeedsTaskbarViewMode" -Value 2 -ErrorAction SilentlyContinue
     }
 
-    $Log.Success("Ajustes Windows 10 aplicados.")
+    $Log.Success("Windows 10 tweaks applied.")
 }
 
 function Set-Windows11Tweaks {
     param([Logger] $Log)
 
-    $Log.Info("Aplicando ajustes Windows 11...")
+    $Log.Info("Applying Windows 11 tweaks...")
     $advancedPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
 
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Value 0 -ErrorAction SilentlyContinue
     Set-ItemProperty -Path $advancedPath -Name "TaskbarDa" -Value 0 -ErrorAction SilentlyContinue
     Set-ItemProperty -Path $advancedPath -Name "TaskbarMn" -Value 0 -ErrorAction SilentlyContinue
 
-    $Log.Success("Ajustes Windows 11 aplicados.")
+    $Log.Success("Windows 11 tweaks applied.")
 }

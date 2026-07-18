@@ -1,6 +1,6 @@
 function Export-CurrentState {
     $stateFile = Join-Path $PSScriptRoot "..\security-state-backup_$(Get-Date -Format 'yyyyMMdd_HHmmss').json"
-    Write-Log "Exportando estado atual das configuracoes para: $stateFile"
+    Write-Log "Exporting current settings state to: $stateFile"
     try {
         $mpPref   = Get-MpPreference
         $mpStatus = Get-MpComputerStatus
@@ -22,9 +22,9 @@ function Export-CurrentState {
         }
 
         $state | ConvertTo-Json -Depth 5 | Set-Content -Path $stateFile -Encoding UTF8
-        Write-Log "Backup do estado salvo com sucesso" -Level 'OK'
+        Write-Log "State backup saved successfully" -Level 'OK'
     }
     catch {
-        Write-Log "Falha ao exportar estado: $_" -Level 'ERROR'
+        Write-Log "Failed to export state: $_" -Level 'ERROR'
     }
 }

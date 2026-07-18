@@ -1,12 +1,13 @@
-# --- Bootstrap: localizar pendrive e copiar base ---
+# --- Bootstrap: locate pendrive and copy base files ---
 $basePath = "C:\manut"
 
 
 . "$basePath\Core\Logger.ps1"
 . "$basePath\Core\Config.ps1"
 . "$basePath\Core\PackageInstaller.ps1"
+. "$basePath\Core\OfflineSync.ps1"
 
-# --- Carregar Configuracoes ---
+# --- Load Configurations ---
 . "$basePath\Configurations\DefenderExceptions.ps1"
 . "$basePath\Configurations\NetworkProtocols.ps1"
 . "$basePath\Configurations\PowerPlan.ps1"
@@ -21,7 +22,7 @@ $basePath = "C:\manut"
 Enable-AutoLogon
 
 
-# --- Carregar Definicoes de Pacotes ---
+# --- Load Package Definitions ---
 . "$basePath\Installers\Firefox.ps1"
 . "$basePath\Installers\Java.ps1"
 . "$basePath\Installers\AdobeReader.ps1"
@@ -31,23 +32,22 @@ Enable-AutoLogon
 . "$basePath\Installers\Office2021.ps1"
 . "$basePath\Installers\customized.ps1"
 
-# --- Inicializar ---
+# --- Initialize ---
 $config = [AppConfig]::new()
 $logger = [Logger]::new($config.LogPath)
 $installer = [PackageInstaller]::new($logger, $config)
 
 $logger.Info("============================================")
-$logger.Info("  INICIO DA INSTALACAO E CONFIGURACAO")
+$logger.Info("  STARTING INSTALLATION AND CONFIGURATION")
 $logger.Info("  OS: $((Get-CimInstance Win32_OperatingSystem).Caption)")
-$logger.Info("  Data: $(Get-Date -Format 'dd/MM/yyyy HH:mm')")
+$logger.Info("  Date: $(Get-Date -Format 'dd/MM/yyyy HH:mm')")
 $logger.Info("============================================")
 
-# --- Fase 1: Seguranca e Rede ---
+# --- Phase 1: Security and Network ---
 Set-DefenderExceptions -Log $logger
 Disable-UnusedProtocols -Log $logger
 Set-HighPerformancePlan -Log $logger
 
-# --- Fase 2: Instalar Programas ---
 $packages = @(
     (Get-FirefoxPackage       -Config $config),
     (Get-JavaPackage          -Config $config),
@@ -57,16 +57,20 @@ $packages = @(
     (Get-GoogleChromePackage  -Config $config)
 )
 
+# --- Fase 1.5: Update offline installers older than 30 days (local + pendrive) ---
+Sync-OfflineInstallers -Log $logger -Config $config -Packages $packages -MaxAgeDays 30
+
+# --- Fase 2: Install Programs ---
 foreach ($pkg in $packages) {
     $installer.Install($pkg)
 }
 
 Install-Office2021 -Log $logger -Config $config
 
-# --- Fase 2.5: Instalacoes Personalizadas por Maquina (UUID) ---
+# --- Phase 2.5: Custom Installations per Machine (UUID) ---
 Install-CustomizedAppsForMachine -Log $logger -BasePath $basePath
 
-# --- Fase 3: Configuracoes do Sistema ---
+# --- Phase 3: System Configurations ---
 $osCaption = (Get-CimInstance Win32_OperatingSystem).Caption
 
 if ($osCaption -match "Windows 10") {
@@ -76,7 +80,7 @@ elseif ($osCaption -match "Windows 11") {
     Set-Windows11Tweaks -Log $logger
 }
 
-# --- Fase 4: Configuracoes Finais (Workstation) ---
+# --- Phase 4: Final Configurations (Workstation) ---
 if ($osCaption -match "Windows 1[01] (Pro|Home)") {
     Register-FinishingScript       -Log $logger -Config $config
     Set-WorkstationTaskbar         -Log $logger -Config $config
@@ -88,6 +92,6 @@ if ($osCaption -match "Windows 1[01] (Pro|Home)") {
 }
 
 $logger.Info("============================================")
-$logger.Success("  PROCESSO CONCLUIDO!")
-$logger.Info("  Log salvo em: $($logger.LogPath)")
+$logger.Success("  PROCESS COMPLETE!")
+$logger.Info("  Log saved to: $($logger.LogPath)")
 $logger.Info("============================================")

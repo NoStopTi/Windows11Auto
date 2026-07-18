@@ -7,17 +7,17 @@ function Enable-WindowsFirewall {
     foreach ($p in $profiles) {
         try {
             if ($WhatIf) {
-                Write-Log "[WHATIF] Ativaria Firewall perfil: $p"
-                Add-Result 'Firewall' "Perfil $p" 'WHATIF'
+                Write-Log "[WHATIF] Would enable Firewall profile: $p"
+                Add-Result 'Firewall' "Profile $p" 'WHATIF'
                 continue
             }
             Set-NetFirewallProfile -Profile $p -Enabled True
-            Write-Log "Ativado: Firewall perfil $p" -Level 'OK'
-            Add-Result 'Firewall' "Perfil $p" 'ENABLED'
+            Write-Log "Enabled: Firewall profile $p" -Level 'OK'
+            Add-Result 'Firewall' "Profile $p" 'ENABLED'
         }
         catch {
-            Write-Log "Falha ao ativar Firewall $p : $_" -Level 'ERROR'
-            Add-Result 'Firewall' "Perfil $p" 'FAILED' $_.Exception.Message
+            Write-Log "Failed to enable Firewall $p : $_" -Level 'ERROR'
+            Add-Result 'Firewall' "Profile $p" 'FAILED' $_.Exception.Message
         }
     }
 }

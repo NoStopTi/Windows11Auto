@@ -1,8 +1,8 @@
 function Clear-DesktopShortcuts {
     param([Logger] $Log)
 
-    $Log.Info("Limpando atalhos da area de trabalho...")
+    $Log.Info("Cleaning up desktop shortcuts...")
     Remove-Item "$env:PUBLIC\Desktop\*.lnk" -Force -ErrorAction SilentlyContinue
     Remove-Item "$env:USERPROFILE\Desktop\*.lnk" -Force -ErrorAction SilentlyContinue
-    $Log.Success("Area de trabalho limpa.")
+    $Log.Success("Desktop cleaned up.")
 }

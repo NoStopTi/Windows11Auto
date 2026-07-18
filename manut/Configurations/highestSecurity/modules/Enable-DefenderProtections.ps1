@@ -4,31 +4,31 @@ function Enable-DefenderProtections {
     Write-Log "=== Microsoft Defender Antivirus ==="
 
     $settings = @(
-        @{ Param = 'DisableRealtimeMonitoring';  Value = $false; Label = 'Protecao em tempo real' }
-        @{ Param = 'DisableBehaviorMonitoring';   Value = $false; Label = 'Monitoramento de comportamento' }
+        @{ Param = 'DisableRealtimeMonitoring';  Value = $false; Label = 'Real-time protection' }
+        @{ Param = 'DisableBehaviorMonitoring';   Value = $false; Label = 'Behavior monitoring' }
         @{ Param = 'DisableBlockAtFirstSeen';     Value = $false; Label = 'Block at First Seen' }
-        @{ Param = 'DisableIOAVProtection';       Value = $false; Label = 'Verificacao de downloads (IOAV)' }
+        @{ Param = 'DisableIOAVProtection';       Value = $false; Label = 'Download scanning (IOAV)' }
         @{ Param = 'DisableScriptScanning';       Value = $false; Label = 'Script Scanning' }
-        @{ Param = 'MAPSReporting';               Value = 2;      Label = 'Protecao fornecida na nuvem (MAPS Advanced)' }
-        @{ Param = 'SubmitSamplesConsent';         Value = 1;      Label = 'Envio automatico de amostra (Safe Samples)' }
-        @{ Param = 'PUAProtection';               Value = 1;      Label = 'Bloqueio de app potencialmente indesejado (PUA)' }
-        @{ Param = 'EnableControlledFolderAccess'; Value = 1;      Label = 'Acesso a pastas controladas (Ransomware)' }
+        @{ Param = 'MAPSReporting';               Value = 2;      Label = 'Cloud-delivered protection (MAPS Advanced)' }
+        @{ Param = 'SubmitSamplesConsent';         Value = 1;      Label = 'Automatic sample submission (Safe Samples)' }
+        @{ Param = 'PUAProtection';               Value = 1;      Label = 'Potentially unwanted app (PUA) blocking' }
+        @{ Param = 'EnableControlledFolderAccess'; Value = 1;      Label = 'Controlled folder access (Ransomware)' }
     )
 
     foreach ($s in $settings) {
         try {
             if ($WhatIf) {
-                Write-Log "[WHATIF] Ativaria: $($s.Label) ($($s.Param) = $($s.Value))"
+                Write-Log "[WHATIF] Would enable: $($s.Label) ($($s.Param) = $($s.Value))"
                 Add-Result 'Defender' $s.Label 'WHATIF'
                 continue
             }
             $params = @{ $s.Param = $s.Value }
             Set-MpPreference @params
-            Write-Log "Ativado: $($s.Label)" -Level 'OK'
+            Write-Log "Enabled: $($s.Label)" -Level 'OK'
             Add-Result 'Defender' $s.Label 'ENABLED'
         }
         catch {
-            Write-Log "Falha ao ativar $($s.Label): $_" -Level 'ERROR'
+            Write-Log "Failed to enable $($s.Label): $_" -Level 'ERROR'
             Add-Result 'Defender' $s.Label 'FAILED' $_.Exception.Message
         }
     }
@@ -36,11 +36,11 @@ function Enable-DefenderProtections {
     if (-not $WhatIf) {
         try {
             Remove-RegistryValue 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender' 'DisableAntiSpyware' | Out-Null
-            Write-Log "Removido: Defender AntiSpyware GPO override (restaura padrao)" -Level 'OK'
+            Write-Log "Removed: Defender AntiSpyware GPO override (restores default)" -Level 'OK'
             Add-Result 'Defender' 'AntiSpyware (GPO)' 'ENABLED'
         }
         catch {
-            Write-Log "Falha AntiSpyware GPO: $_" -Level 'ERROR'
+            Write-Log "AntiSpyware GPO failure: $_" -Level 'ERROR'
             Add-Result 'Defender' 'AntiSpyware (GPO)' 'FAILED' $_.Exception.Message
         }
     }

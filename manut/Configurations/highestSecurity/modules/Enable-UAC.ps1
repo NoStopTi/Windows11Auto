@@ -14,13 +14,13 @@ function Enable-UAC {
 
     foreach ($s in $settings) {
         if ($WhatIf) {
-            Write-Log "[WHATIF] Ativaria: $($s.Label)"
+            Write-Log "[WHATIF] Would enable: $($s.Label)"
             Add-Result 'UAC' $s.Label 'WHATIF'
             continue
         }
         $ok = Set-RegistryValue $uacPath $s.Name $s.Value
         if ($ok) {
-            Write-Log "Ativado: $($s.Label)" -Level 'OK'
+            Write-Log "Enabled: $($s.Label)" -Level 'OK'
             Add-Result 'UAC' $s.Label 'ENABLED'
         }
         else {

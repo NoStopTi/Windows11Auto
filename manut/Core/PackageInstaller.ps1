@@ -19,13 +19,13 @@ class PackageInstaller {
         $this.Log.Info("=== $($pkg.Name) ===")
 
         if ($this.OfflineExists($pkg)) {
-            $this.Log.Info("Instalador offline encontrado: $($pkg.OfflineFile)")
+            $this.Log.Info("Offline installer found: $($pkg.OfflineFile)")
         }
         elseif ($pkg.DownloadUrl -and $this.HasInternet()) {
             $this.Download($pkg)
         }
         else {
-            $this.Log.Error("$($pkg.Name): sem instalador offline e sem internet. Pulando.")
+            $this.Log.Error("$($pkg.Name): no offline installer and no internet. Skipping.")
             return
         }
 
@@ -37,7 +37,7 @@ class PackageInstaller {
     }
 
     hidden [void] Download([PackageDefinition] $pkg) {
-        $this.Log.Info("Baixando $($pkg.Name)...")
+        $this.Log.Info("Downloading $($pkg.Name)...")
         $parentDir = Split-Path $pkg.OfflineFile -Parent
         if (-not (Test-Path $parentDir)) {
             New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
@@ -45,35 +45,35 @@ class PackageInstaller {
         try {
             [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
             Invoke-WebRequest -Uri $pkg.DownloadUrl -OutFile $pkg.OfflineFile -UseBasicParsing
-            $this.Log.Success("Download concluido: $($pkg.Name)")
+            $this.Log.Success("Download complete: $($pkg.Name)")
         }
         catch {
-            $this.Log.Error("Falha no download de $($pkg.Name): $_")
+            $this.Log.Error("Download failed for $($pkg.Name): $_")
             throw
         }
     }
 
     hidden [void] ExtractArchive([PackageDefinition] $pkg) {
         $targetDir = Split-Path $pkg.OfflineFile -Parent
-        $this.Log.Info("Extraindo $($pkg.OfflineFile)...")
+        $this.Log.Info("Extracting $($pkg.OfflineFile)...")
         try {
             Expand-Archive -Path $pkg.OfflineFile -DestinationPath $targetDir -Force
-            $this.Log.Success("Extracao concluida: $($pkg.Name)")
+            $this.Log.Success("Extraction complete: $($pkg.Name)")
         }
         catch {
-            $this.Log.Warn("Extracao pode ja ter sido feita ou falhou: $_")
+            $this.Log.Warn("Extraction may have already been done or failed: $_")
         }
     }
 
     hidden [void] Execute([PackageDefinition] $pkg) {
         $installerPath = $pkg.InstallerPath
         if (-not (Test-Path $installerPath)) {
-            $this.Log.Error("Instalador nao encontrado: $installerPath")
+            $this.Log.Error("Installer not found: $installerPath")
             return
         }
 
         $ext = [System.IO.Path]::GetExtension($installerPath).ToLower()
-        $this.Log.Info("Instalando $($pkg.Name)...")
+        $this.Log.Info("Installing $($pkg.Name)...")
 
         try {
             switch ($ext) {
@@ -95,14 +95,14 @@ class PackageInstaller {
                     Start-Process @splat
                 }
                 default {
-                    $this.Log.Error("Extensao nao suportada: $ext")
+                    $this.Log.Error("Unsupported extension: $ext")
                     return
                 }
             }
-            $this.Log.Success("$($pkg.Name) instalado com sucesso.")
+            $this.Log.Success("$($pkg.Name) installed successfully.")
         }
         catch {
-            $this.Log.Error("Erro ao instalar $($pkg.Name): $_")
+            $this.Log.Error("Error installing $($pkg.Name): $_")
         }
     }
 }

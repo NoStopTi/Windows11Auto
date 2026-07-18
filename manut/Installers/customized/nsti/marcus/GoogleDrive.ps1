@@ -1,23 +1,22 @@
-﻿<#
+<#
 .SYNOPSIS
-    Downloads and installs Wispr Flow (latest version) silently.
+    Downloads and installs Google Drive for desktop (latest version) silently.
 
 .DESCRIPTION
-    - Downloads the latest official installer from dl.wisprflow.ai/windows/latest
-    - Runs the installation without user interaction
+    - Downloads the official installer from dl.google.com/drive-file-stream
+    - Runs the installation without user interaction (--silent)
     - Only shows status messages (Downloading..., Installing..., etc)
 
 .NOTES
-    The Wispr Flow installer for Windows is based on Squirrel and runs by default
-    non-interactively (no installation wizard). This script simply
-    automates the download + execution and suppresses unnecessary console output.
-    Installation is done per-user, in %LOCALAPPDATA%\WisprFlow.
+    The GoogleDriveSetup.exe URL always points to the latest published version.
+    Requires administrator privileges (machine-wide install).
 #>
 
 [CmdletBinding()]
 param(
-    [string]$DownloadUrl = "https://dl.wisprflow.ai/windows/latest",
-    [string]$InstallerPath = "$env:TEMP\WisprFlowSetup.exe"
+    [string]$DownloadUrl = "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe",
+    [string]$InstallerPath = "$env:TEMP\GoogleDriveSetup.exe",
+    [switch]$DesktopShortcut
 )
 
 $ErrorActionPreference = "Stop"
@@ -44,8 +43,12 @@ try {
     # 2) Silent installation
     Write-Status "Installing..."
 
-    # The installer (Squirrel) runs without a UI by default when run normally.
-    $process = Start-Process -FilePath $InstallerPath -PassThru -WindowStyle Hidden
+    $installArgs = @("--silent", "--skip_launch_new", "--gsuite_shortcuts=false")
+    if ($DesktopShortcut) {
+        $installArgs += "--desktop_shortcut"
+    }
+
+    $process = Start-Process -FilePath $InstallerPath -ArgumentList $installArgs -PassThru -Wait
 
     if ($process.ExitCode -ne 0) {
         throw "The installer returned exit code $($process.ExitCode)."
@@ -55,7 +58,7 @@ try {
     # 3) Cleanup
     Write-Status "Cleaning up..."
     Remove-Item -Path $InstallerPath -Force -ErrorAction SilentlyContinue
-    Write-Status "Done! Wispr Flow was installed successfully."
+    Write-Status "Done! Google Drive was installed successfully."
 }
 catch {
     Write-Host "Error: $($_.Exception.Message)" -ForegroundColor Red

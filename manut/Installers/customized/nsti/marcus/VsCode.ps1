@@ -1,15 +1,15 @@
 ﻿<#
 .SYNOPSIS
-    Baixa e instala o Visual Studio Code (versao mais recente - stable) silenciosamente.
+    Downloads and installs Visual Studio Code (latest stable version) silently.
 
 .DESCRIPTION
-    - Baixa o instalador oficial mais atual via update.code.visualstudio.com
-    - Executa a instalacao sem interacao do usuario (Inno Setup /VERYSILENT)
-    - Exibe apenas mensagens de status (Downloading..., Installing..., etc)
+    - Downloads the latest official installer via update.code.visualstudio.com
+    - Runs the installation without user interaction (Inno Setup /VERYSILENT)
+    - Only shows status messages (Downloading..., Installing..., etc)
 
 .NOTES
-    Por padrao baixa o instalador "System" (para todos os usuarios, x64).
-    Use -Scope User para instalar apenas para o usuario atual (nao requer admin).
+    By default downloads the "System" installer (for all users, x64).
+    Use -Scope User to install only for the current user (does not require admin).
 #>
 
 [CmdletBinding()]
@@ -31,7 +31,7 @@ function Write-Status {
 }
 
 try {
-    # 1) Monta a URL de download (sempre aponta para a build "stable" mais recente)
+    # 1) Build the download URL (always points to the latest "stable" build)
     $channel = if ($Scope -eq "User") { "win32-$Arch-user" } else { "win32-$Arch" }
     $DownloadUrl = "https://update.code.visualstudio.com/latest/$channel/stable"
 
@@ -43,17 +43,17 @@ try {
     $ProgressPreference = "Continue"
 
     if (-not (Test-Path $InstallerPath)) {
-        throw "Falha ao baixar o instalador."
+        throw "Failed to download the installer."
     }
-    Write-Status "Download concluido."
+    Write-Status "Download complete."
 
-    # 2) Instalacao silenciosa (instalador Inno Setup)
+    # 2) Silent installation (Inno Setup installer)
     Write-Status "Installing..."
 
     $installArgs = @(
         "/VERYSILENT",
         "/NORESTART",
-        "/MERGETASKS=!runcode",     # nao abre o VS Code ao final da instalacao
+        "/MERGETASKS=!runcode",     # does not open VS Code at the end of the installation
         "/SUPPRESSMSGBOXES",
         "/LOG=$env:TEMP\VSCodeInstall.log"
     )
@@ -61,16 +61,16 @@ try {
     $process = Start-Process -FilePath $InstallerPath -ArgumentList $installArgs -PassThru -Wait
 
     if ($process.ExitCode -ne 0) {
-        throw "O instalador retornou codigo de saida $($process.ExitCode). Veja o log em $env:TEMP\VSCodeInstall.log"
+        throw "The installer returned exit code $($process.ExitCode). See the log at $env:TEMP\VSCodeInstall.log"
     }
-    Write-Status "Instalacao concluida."
+    Write-Status "Installation complete."
 
-    # 3) Limpeza
+    # 3) Cleanup
     Write-Status "Cleaning up..."
     Remove-Item -Path $InstallerPath -Force -ErrorAction SilentlyContinue
-    Write-Status "Concluido! Visual Studio Code foi instalado com sucesso."
+    Write-Status "Done! Visual Studio Code was installed successfully."
 }
 catch {
-    Write-Host "Erro: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "Error: $($_.Exception.Message)" -ForegroundColor Red
     exit 1
 }

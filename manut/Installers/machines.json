@@ -7,6 +7,10 @@
           "uuid": "589E09CC-303B-11B2-A85C-D7A4FE8E2DF9",
           "apps": [
             {
+              "appName": "Ais",
+              "path": ".\\Installers\\customized\\nsti\\marcus\\Ais.ps1"
+            },
+            {
               "appName": "Claude",
               "path": ".\\Installers\\customized\\nsti\\marcus\\Claude.ps1"
             },
@@ -15,13 +19,39 @@
               "path": ".\\Installers\\customized\\nsti\\marcus\\Git.ps1"
             },
             {
+              "appName": "GoogleDrive",
+              "path": ".\\Installers\\customized\\nsti\\marcus\\GoogleDrive.ps1"
+            },
+            {
+              "appName": "UpdateNodeLts",
+              "path": ".\\Installers\\customized\\nsti\\marcus\\UpdateNodeLts.ps1"
+            },
+            {
+              "appName": "UpdateNpm",
+              "path": ".\\Installers\\customized\\nsti\\marcus\\UpdateNpm.ps1"
+            },
+            {
+              "appName": "UpdateNpx",
+              "path": ".\\Installers\\customized\\nsti\\marcus\\updateNpx.ps1"
+            },
+            {
               "appName": "vsCode",
               "path": ".\\Installers\\customized\\nsti\\marcus\\VsCode.ps1"
+            },
+            {
+              "appName": "WindowsADK",
+              "path": ".\\Installers\\customized\\nsti\\marcus\\WindowsADK.ps1"
             },
             {
               "appName": "WisprFlow",
               "path": ".\\Installers\\customized\\nsti\\marcus\\WisprFlow.ps1"
             }
+          ],
+          "configs": [
+            {
+              "confName": "HideFiles",
+              "path": "\\Configurations\\customized\\nsti\\marcus\\Toggle-HiddenFiles.ps1"
+            }        
           ]
         }
       ]

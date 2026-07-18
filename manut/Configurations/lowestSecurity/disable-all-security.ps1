@@ -6,14 +6,14 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Continue'
 
-# ── Core: infraestrutura compartilhada ──
+# ── Core: shared infrastructure ──
 . "$PSScriptRoot\core\Logger.ps1"
 . "$PSScriptRoot\core\ResultTracker.ps1"
 . "$PSScriptRoot\core\RegistryHelper.ps1"
 . "$PSScriptRoot\core\TamperProtectionCheck.ps1"
 . "$PSScriptRoot\core\StateBackup.ps1"
 
-# ── Modules: cada um com responsabilidade unica ──
+# ── Modules: each with a single responsibility ──
 . "$PSScriptRoot\modules\Disable-DefenderProtections.ps1"
 . "$PSScriptRoot\modules\Disable-SmartScreen.ps1"
 . "$PSScriptRoot\modules\Disable-PhishingProtection.ps1"
@@ -24,18 +24,18 @@ $ErrorActionPreference = 'Continue'
 . "$PSScriptRoot\modules\Disable-DevDriveProtection.ps1"
 . "$PSScriptRoot\modules\Disable-SecurityServices.ps1"
 
-# ── Execucao ──
+# ── Execution ──
 
 Write-Host ""
 Write-Host "============================================================" -ForegroundColor Red
 Write-Host "  SECURITY ASSESSMENT - LOWEST SECURITY CONFIGURATION" -ForegroundColor Red
-Write-Host "  Este script DESATIVA as protecoes de seguranca do Windows" -ForegroundColor Red
-Write-Host "  Use highestSecurity\enable-all-security.ps1 para reverter" -ForegroundColor Red
+Write-Host "  This script DISABLES Windows security protections" -ForegroundColor Red
+Write-Host "  Use highestSecurity\enable-all-security.ps1 to revert" -ForegroundColor Red
 Write-Host "============================================================" -ForegroundColor Red
 Write-Host ""
 
-Write-Log "Iniciando desativacao de seguranca..."
-Write-Log "Modo WhatIf: $WhatIf"
+Write-Log "Starting security disablement..."
+Write-Log "WhatIf mode: $WhatIf"
 
 $script:SafeModeRebootPending = $false
 
@@ -47,20 +47,20 @@ if ($script:SafeModeRebootPending) {
     Show-ResultSummary
 
     Write-Host ""
-    Write-Host "Deseja reiniciar agora em Safe Mode? (S/N): " -ForegroundColor Yellow -NoNewline
-    $resposta = Read-Host
-    if ($resposta -match '^[Ss]') {
-        Write-Log "Reiniciando em Safe Mode em 15 segundos..." -Level 'WARN'
-        & shutdown /r /t 15 /c "Reiniciando em Safe Mode para desativar Tamper Protection"
+    Write-Host "Do you want to restart now in Safe Mode? (Y/N): " -ForegroundColor Yellow -NoNewline
+    $response = Read-Host
+    if ($response -match '^[Yy]') {
+        Write-Log "Restarting in Safe Mode in 15 seconds..." -Level 'WARN'
+        & shutdown /r /t 15 /c "Restarting in Safe Mode to disable Tamper Protection"
     }
     else {
-        Write-Log "Reinicio adiado. Execute 'shutdown /r /t 0' quando estiver pronto." -Level 'WARN'
-        Write-Log "O Safe Mode ja esta configurado - o proximo reinicio sera em Safe Mode." -Level 'WARN'
-        Write-Log "Para cancelar: bcdedit /deletevalue {current} safeboot" -Level 'WARN'
+        Write-Log "Restart postponed. Run 'shutdown /r /t 0' when ready." -Level 'WARN'
+        Write-Log "Safe Mode is already configured - the next restart will be in Safe Mode." -Level 'WARN'
+        Write-Log "To cancel: bcdedit /deletevalue {current} safeboot" -Level 'WARN'
     }
 
     Write-Host ""
-    Write-Host "Apos o duplo reinicio (Safe Mode -> Normal), execute este script novamente." -ForegroundColor Cyan
+    Write-Host "After the double restart (Safe Mode -> Normal), run this script again." -ForegroundColor Cyan
     Write-Host ""
     return
 }
@@ -79,11 +79,11 @@ Show-ResultSummary
 
 if (-not $WhatIf) {
     Write-Host ""
-    Write-Log "IMPORTANTE: Algumas alteracoes requerem reinicializacao (UAC, servicos)." -Level 'WARN'
-    Write-Log "Execute 'shutdown /r /t 60 /c Security Test Reboot' para reiniciar em 60 segundos." -Level 'WARN'
+    Write-Log "IMPORTANT: Some changes require a restart (UAC, services)." -Level 'WARN'
+    Write-Log "Run 'shutdown /r /t 60 /c Security Test Reboot' to restart in 60 seconds." -Level 'WARN'
 }
 
 Write-Host ""
-Write-Host "Para REVERTER todas as alteracoes, execute:" -ForegroundColor Green
+Write-Host "To REVERT all changes, run:" -ForegroundColor Green
 Write-Host "  ..\highestSecurity\enable-all-security.ps1" -ForegroundColor Green
 Write-Host ""

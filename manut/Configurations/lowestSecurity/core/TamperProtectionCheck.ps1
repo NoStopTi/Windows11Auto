@@ -2,13 +2,13 @@ function Test-TamperProtection {
     try {
         $tp = (Get-MpComputerStatus).IsTamperProtected
         if ($tp) {
-            Write-Log "Tamper Protection esta ATIVADA." -Level 'WARN'
+            Write-Log "Tamper Protection is ENABLED." -Level 'WARN'
             return $true
         }
         return $false
     }
     catch {
-        Write-Log "Nao foi possivel verificar Tamper Protection: $_" -Level 'WARN'
+        Write-Log "Could not check Tamper Protection: $_" -Level 'WARN'
         return $false
     }
 }
@@ -16,23 +16,23 @@ function Test-TamperProtection {
 function Disable-TamperProtection {
     param([switch]$WhatIf)
 
-    Write-Log "=== Tamper Protection (Protecao contra Violacoes) ==="
+    Write-Log "=== Tamper Protection ==="
 
     if ($WhatIf) {
-        Write-Log "[WHATIF] Desativaria Tamper Protection via Safe Mode reboot"
+        Write-Log "[WHATIF] Would disable Tamper Protection via Safe Mode reboot"
         Add-Result 'Defender' 'Tamper Protection' 'WHATIF'
         return
     }
 
     $initialState = Test-TamperProtection
     if (-not $initialState) {
-        Write-Log "Tamper Protection ja esta desativada" -Level 'OK'
+        Write-Log "Tamper Protection is already disabled" -Level 'OK'
         Add-Result 'Defender' 'Tamper Protection' 'DISABLED'
         return
     }
 
-    Write-Log "Tamper Protection ativa - protecao a nivel de kernel impede desativacao em modo normal." -Level 'WARN'
-    Write-Log "Preparando reinicio automatico em Safe Mode para desativar..." -Level 'INFO'
+    Write-Log "Tamper Protection active - kernel-level protection prevents disabling in normal mode." -Level 'WARN'
+    Write-Log "Preparing automatic reboot into Safe Mode to disable it..." -Level 'INFO'
 
     $scriptDir = if ($PSScriptRoot) { Split-Path -Parent $PSScriptRoot } else { $PWD.Path }
     $batchPath = Join-Path $env:TEMP 'disable-tamper-safemode.cmd'
@@ -40,7 +40,7 @@ function Disable-TamperProtection {
     $batchContent = @"
 @echo off
 echo ============================================================
-echo   Desativando Tamper Protection em Safe Mode...
+echo   Disabling Tamper Protection in Safe Mode...
 echo ============================================================
 
 reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Features" /v TamperProtection /t REG_DWORD /d 0 /f
@@ -60,58 +60,58 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Services\WinDefend" /v Start /t REG_DWORD
 bcdedit /deletevalue {current} safeboot
 
 echo ============================================================
-echo   Tamper Protection desativada. Reiniciando em modo normal...
+echo   Tamper Protection disabled. Restarting in normal mode...
 echo ============================================================
 
-shutdown /r /t 10 /c "Retornando ao modo normal - Tamper Protection desativada"
+shutdown /r /t 10 /c "Returning to normal mode - Tamper Protection disabled"
 "@
 
     try {
         Set-Content -Path $batchPath -Value $batchContent -Encoding ASCII -Force -ErrorAction Stop
-        Write-Log "Script Safe Mode criado: $batchPath" -Level 'OK'
+        Write-Log "Safe Mode script created: $batchPath" -Level 'OK'
     }
     catch {
-        Write-Log "Falha ao criar script Safe Mode: $_" -Level 'ERROR'
-        Add-Result 'Defender' 'Tamper Protection' 'FAILED' 'Nao foi possivel criar script de Safe Mode'
+        Write-Log "Failed to create Safe Mode script: $_" -Level 'ERROR'
+        Add-Result 'Defender' 'Tamper Protection' 'FAILED' 'Could not create Safe Mode script'
         return
     }
 
     try {
         & reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce" /v DisableTamperProtection /t REG_SZ /d "`"$batchPath`"" /f 2>&1 | Out-Null
-        Write-Log "RunOnce registrado para executar em Safe Mode" -Level 'OK'
+        Write-Log "RunOnce registered to run in Safe Mode" -Level 'OK'
     }
     catch {
-        Write-Log "Falha ao registrar RunOnce: $_" -Level 'ERROR'
-        Add-Result 'Defender' 'Tamper Protection' 'FAILED' 'Nao foi possivel registrar RunOnce'
+        Write-Log "Failed to register RunOnce: $_" -Level 'ERROR'
+        Add-Result 'Defender' 'Tamper Protection' 'FAILED' 'Could not register RunOnce'
         return
     }
 
     try {
         & bcdedit /set "{current}" safeboot minimal 2>&1 | Out-Null
-        Write-Log "Safe Mode configurado para proximo boot" -Level 'OK'
+        Write-Log "Safe Mode configured for next boot" -Level 'OK'
     }
     catch {
-        Write-Log "Falha ao configurar Safe Mode: $_" -Level 'ERROR'
+        Write-Log "Failed to configure Safe Mode: $_" -Level 'ERROR'
         & reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce" /v DisableTamperProtection /f 2>&1 | Out-Null
-        Add-Result 'Defender' 'Tamper Protection' 'FAILED' 'Nao foi possivel configurar Safe Mode boot'
+        Add-Result 'Defender' 'Tamper Protection' 'FAILED' 'Could not configure Safe Mode boot'
         return
     }
 
-    Add-Result 'Defender' 'Tamper Protection' 'REBOOT_REQUIRED' 'Safe Mode reboot automatico configurado'
+    Add-Result 'Defender' 'Tamper Protection' 'REBOOT_REQUIRED' 'Automatic Safe Mode reboot configured'
 
     Write-Host ""
     Write-Host "============================================================" -ForegroundColor Yellow
-    Write-Host "  REINICIO EM SAFE MODE NECESSARIO" -ForegroundColor Yellow
+    Write-Host "  SAFE MODE RESTART REQUIRED" -ForegroundColor Yellow
     Write-Host "============================================================" -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "  O computador ira:" -ForegroundColor Cyan
-    Write-Host "    1. Reiniciar em Safe Mode" -ForegroundColor Cyan
-    Write-Host "    2. Faca login com sua conta normalmente" -ForegroundColor Cyan
-    Write-Host "    3. O script automatico desativa Tamper Protection" -ForegroundColor Cyan
-    Write-Host "    4. Reinicia em modo normal automaticamente" -ForegroundColor Cyan
+    Write-Host "  The computer will:" -ForegroundColor Cyan
+    Write-Host "    1. Restart in Safe Mode" -ForegroundColor Cyan
+    Write-Host "    2. Log in with your account normally" -ForegroundColor Cyan
+    Write-Host "    3. The automatic script disables Tamper Protection" -ForegroundColor Cyan
+    Write-Host "    4. Restarts in normal mode automatically" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "  Apos o duplo reinicio, execute este script novamente" -ForegroundColor Cyan
-    Write-Host "  para confirmar que tudo esta desativado." -ForegroundColor Cyan
+    Write-Host "  After the double restart, run this script again" -ForegroundColor Cyan
+    Write-Host "  to confirm everything is disabled." -ForegroundColor Cyan
     Write-Host ""
 
     $script:SafeModeRebootPending = $true

@@ -29,7 +29,7 @@ function Set-ProtectedRegistryValue {
     $result = Set-RegistryValue $Path $Name $Value $Type
     if ($result) { return $true }
 
-    Write-Log "Acesso negado. Tentando tomar posse da chave: $Path" -Level 'WARN'
+    Write-Log "Access denied. Attempting to take ownership of the key: $Path" -Level 'WARN'
     try {
         $hive = $Path -replace '^HKLM:\\', ''
         $regKey = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey(
@@ -37,7 +37,7 @@ function Set-ProtectedRegistryValue {
             [Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree,
             [System.Security.AccessControl.RegistryRights]::TakeOwnership
         )
-        if ($null -eq $regKey) { throw "Nao foi possivel abrir chave para TakeOwnership" }
+        if ($null -eq $regKey) { throw "Could not open key for TakeOwnership" }
         $acl = $regKey.GetAccessControl()
         $admin = [System.Security.Principal.NTAccount]'BUILTIN\Administrators'
         $acl.SetOwner($admin)
@@ -61,12 +61,12 @@ function Set-ProtectedRegistryValue {
         $regKey.SetAccessControl($acl)
         $regKey.Close()
 
-        Write-Log "Posse tomada. Tentando escrita novamente..." -Level 'INFO'
+        Write-Log "Ownership taken. Retrying write..." -Level 'INFO'
         Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type -Force -ErrorAction Stop
         return $true
     }
     catch {
-        Write-Log "Falha mesmo apos tomar posse: $Path\$Name - $_" -Level 'ERROR'
+        Write-Log "Failed even after taking ownership: $Path\$Name - $_" -Level 'ERROR'
         return $false
     }
 }
@@ -84,7 +84,7 @@ function Invoke-AsSystem {
         return $true
     }
     catch {
-        Write-Log "Falha ao executar como SYSTEM: $_" -Level 'ERROR'
+        Write-Log "Failed to run as SYSTEM: $_" -Level 'ERROR'
         return $false
     }
     finally {

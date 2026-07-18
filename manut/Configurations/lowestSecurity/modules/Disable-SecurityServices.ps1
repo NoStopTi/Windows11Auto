@@ -1,7 +1,7 @@
 function Disable-SecurityServices {
     param([switch]$WhatIf)
 
-    Write-Log "=== Servicos de seguranca ==="
+    Write-Log "=== Security Services ==="
 
     $services = @(
         @{ Name = 'WdNisSvc';             Label = 'Windows Defender Network Inspection Service' }
@@ -13,25 +13,25 @@ function Disable-SecurityServices {
     foreach ($svc in $services) {
         try {
             if ($WhatIf) {
-                Write-Log "[WHATIF] Desativaria servico: $($svc.Label)"
-                Add-Result 'Servicos' $svc.Label 'WHATIF'
+                Write-Log "[WHATIF] Would disable service: $($svc.Label)"
+                Add-Result 'Services' $svc.Label 'WHATIF'
                 continue
             }
             $s = Get-Service -Name $svc.Name -ErrorAction SilentlyContinue
             if ($s) {
                 try { Stop-Service -Name $svc.Name -Force -ErrorAction Stop } catch {}
                 try { Set-Service -Name $svc.Name -StartupType Disabled -ErrorAction Stop } catch {}
-                Write-Log "Desativado: $($svc.Label)" -Level 'OK'
-                Add-Result 'Servicos' $svc.Label 'DISABLED'
+                Write-Log "Disabled: $($svc.Label)" -Level 'OK'
+                Add-Result 'Services' $svc.Label 'DISABLED'
             }
             else {
-                Write-Log "Servico nao encontrado: $($svc.Name)" -Level 'WARN'
-                Add-Result 'Servicos' $svc.Label 'NOT_FOUND'
+                Write-Log "Service not found: $($svc.Name)" -Level 'WARN'
+                Add-Result 'Services' $svc.Label 'NOT_FOUND'
             }
         }
         catch {
-            Write-Log "Falha ao desativar servico $($svc.Name): $_" -Level 'ERROR'
-            Add-Result 'Servicos' $svc.Label 'FAILED' $_.Exception.Message
+            Write-Log "Failed to disable service $($svc.Name): $_" -Level 'ERROR'
+            Add-Result 'Services' $svc.Label 'FAILED' $_.Exception.Message
         }
     }
 }

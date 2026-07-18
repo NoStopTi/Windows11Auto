@@ -8,13 +8,13 @@ function Enable-LocalAdminAccount {
         [string] $EnvFilePath = "C:\manut\Core\secure\.env"
     )
 
-    $Log.Info("Ativando conta de administrador local...")
+    $Log.Info("Enabling local administrator account...")
 
     try {
         $secrets = Import-EnvSecrets -Path $EnvFilePath -RequiredKeys @("ADMIN_PASSWORD")
     }
     catch {
-        $Log.Error("Falha ao carregar segredos: $_")
+        $Log.Error("Failed to load secrets: $_")
         return
     }
     $newPwd = $secrets["ADMIN_PASSWORD"]
@@ -23,7 +23,7 @@ function Enable-LocalAdminAccount {
     if ($user) {
         Set-LocalUser -Name "administrador" -Password $newPwd
         Enable-LocalUser -Name "administrador"
-        $Log.Success("Conta 'administrador' ativada.")
+        $Log.Success("'administrador' account enabled.")
         return
     }
 
@@ -31,11 +31,11 @@ function Enable-LocalAdminAccount {
     if ($user) {
         Set-LocalUser -Name "administrator" -Password $newPwd
         Enable-LocalUser -Name "administrator"
-        $Log.Success("Conta 'administrator' ativada.")
+        $Log.Success("'administrator' account enabled.")
         return
     }
 
-    $Log.Warn("Conta de administrador local nao encontrada.")
+    $Log.Warn("Local administrator account not found.")
 }
 
 function Set-UserPasswordNeverExpires {
@@ -44,7 +44,7 @@ function Set-UserPasswordNeverExpires {
         [string] $Username = "user"
     )
 
-    $Log.Info("Configurando senha sem expiracao para '$Username'...")
+    $Log.Info("Setting password to never expire for '$Username'...")
     Set-LocalUser -Name $Username -PasswordNeverExpires $true -ErrorAction SilentlyContinue
-    $Log.Success("Senha do usuario '$Username' configurada para nunca expirar.")
+    $Log.Success("Password for user '$Username' set to never expire.")
 }

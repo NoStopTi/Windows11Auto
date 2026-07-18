@@ -1,21 +1,21 @@
 ﻿
 <#
 .SYNOPSIS
-    Baixa e instala o Git for Windows (64-bit) de forma 100% silenciosa.
- 
+    Downloads and installs Git for Windows (64-bit) 100% silently.
+
 .DESCRIPTION
-    Consulta a API do GitHub para obter a versao mais recente do Git for
-    Windows, baixa o instalador oficial e executa a instalacao silenciosa
-    (sem janelas, sem cliques). Informa cada etapa no console.
- 
+    Queries the GitHub API for the latest Git for Windows release,
+    downloads the official installer, and runs the silent installation
+    (no windows, no clicks). Reports each step to the console.
+
 .NOTES
-    Execute em um PowerShell com privilegios de Administrador para que a
-    instalacao (que grava em Program Files e no registro) funcione sem erros.
+    Run in a PowerShell session with Administrator privileges so the
+    installation (which writes to Program Files and the registry) works without errors.
 #>
- 
+
 [CmdletBinding()]
 param(
-    # Pasta temporaria onde o instalador sera baixado
+    # Temporary folder where the installer will be downloaded
     [string]$DownloadFolder = "$env:TEMP\GitInstall"
 )
  
@@ -27,60 +27,60 @@ function Write-Step {
 }
  
 try {
-    # 1. Verifica se ja existe uma instalacao do Git
-    Write-Step "Verificando se o Git ja esta instalado..."
+    # 1. Check if Git is already installed
+    Write-Step "Checking if Git is already installed..."
     $existingGit = Get-Command git -ErrorAction SilentlyContinue
     if ($existingGit) {
         $version = & git --version
-        Write-Host "Git ja esta instalado: $version" -ForegroundColor Yellow
-        Write-Host "Encerrando sem reinstalar. Use -Force removendo esta verificacao se quiser reinstalar." -ForegroundColor Yellow
+        Write-Host "Git is already installed: $version" -ForegroundColor Yellow
+        Write-Host "Exiting without reinstalling. Use -Force removing this check if you want to reinstall." -ForegroundColor Yellow
         return
     }
- 
-    # 2. Prepara a pasta de download
-    Write-Step "Preparando pasta temporaria de download ($DownloadFolder)..."
+
+    # 2. Prepare the download folder
+    Write-Step "Preparing temporary download folder ($DownloadFolder)..."
     if (-not (Test-Path $DownloadFolder)) {
         New-Item -ItemType Directory -Path $DownloadFolder | Out-Null
     }
- 
-    # 3. Descobre a versao mais recente via API do GitHub
-    Write-Step "Consultando a versao mais recente do Git for Windows..."
+
+    # 3. Discover the latest version via the GitHub API
+    Write-Step "Querying the latest Git for Windows version..."
     $apiUrl = "https://api.github.com/repos/git-for-windows/git/releases/latest"
     $headers = @{ "User-Agent" = "installGit-script" }
     $release = Invoke-RestMethod -Uri $apiUrl -Headers $headers
- 
-    # Procura o asset do instalador 64-bit (ex: Git-2.46.0-64-bit.exe)
+
+    # Look for the 64-bit installer asset (e.g. Git-2.46.0-64-bit.exe)
     $asset = $release.assets | Where-Object { $_.name -match '^Git-.*-64-bit\.exe$' } | Select-Object -First 1
- 
+
     if (-not $asset) {
-        throw "Nao foi possivel encontrar o instalador 64-bit na release mais recente."
+        throw "Could not find the 64-bit installer in the latest release."
     }
- 
+
     $downloadUrl  = $asset.browser_download_url
     $installerPath = Join-Path $DownloadFolder $asset.name
- 
-    Write-Host "Versao encontrada: $($release.tag_name)" -ForegroundColor Green
- 
-    # 4. Baixa o instalador
+
+    Write-Host "Version found: $($release.tag_name)" -ForegroundColor Green
+
+    # 4. Download the installer
     Write-Step "Downloading... ($($asset.name))"
     Invoke-WebRequest -Uri $downloadUrl -OutFile $installerPath -UseBasicParsing
- 
+
     if (-not (Test-Path $installerPath)) {
-        throw "Falha ao baixar o instalador."
+        throw "Failed to download the installer."
     }
-    Write-Host "Download concluido: $installerPath" -ForegroundColor Green
- 
-    # 5. Instala silenciosamente
-    # O instalador do Git for Windows usa Inno Setup, entao aceita estes parametros:
-    #   /VERYSILENT        -> nenhuma janela visivel
-    #   /NORESTART         -> nao reinicia o computador
-    #   /NOCANCEL          -> impede cancelamento
-    #   /SP-                -> nao mostra prompt inicial "This will install..."
-    #   /SUPPRESSMSGBOXES  -> suprime caixas de mensagem
-    #   /CLOSEAPPLICATIONS -> fecha apps que possam travar a instalacao
-    #   /LOG               -> gera log da instalacao
+    Write-Host "Download complete: $installerPath" -ForegroundColor Green
+
+    # 5. Install silently
+    # The Git for Windows installer uses Inno Setup, so it accepts these parameters:
+    #   /VERYSILENT        -> no visible window
+    #   /NORESTART         -> does not restart the computer
+    #   /NOCANCEL          -> prevents cancellation
+    #   /SP-                -> does not show the initial "This will install..." prompt
+    #   /SUPPRESSMSGBOXES  -> suppresses message boxes
+    #   /CLOSEAPPLICATIONS -> closes apps that could block the installation
+    #   /LOG               -> generates an installation log
     $logPath = Join-Path $DownloadFolder "git-install.log"
- 
+
     Write-Step "Installing..."
     $installArgs = @(
         "/VERYSILENT",
@@ -91,38 +91,38 @@ try {
         "/CLOSEAPPLICATIONS",
         "/LOG=`"$logPath`""
     )
- 
+
     $process = Start-Process -FilePath $installerPath -ArgumentList $installArgs -Wait -PassThru
- 
+
     if ($process.ExitCode -ne 0) {
-        throw "A instalacao falhou com o codigo de saida $($process.ExitCode). Veja o log em $logPath"
+        throw "The installation failed with exit code $($process.ExitCode). See the log at $logPath"
     }
- 
-    Write-Host "Instalacao concluida com sucesso." -ForegroundColor Green
- 
-    # 6. Atualiza o PATH da sessao atual e verifica a instalacao
-    Write-Step "Verificando a instalacao..."
+
+    Write-Host "Installation completed successfully." -ForegroundColor Green
+
+    # 6. Update the current session's PATH and verify the installation
+    Write-Step "Verifying the installation..."
     $gitDefaultPath = "$env:ProgramFiles\Git\cmd"
     if (Test-Path $gitDefaultPath) {
         $env:Path = "$gitDefaultPath;$env:Path"
     }
- 
+
     $gitCmd = Get-Command git -ErrorAction SilentlyContinue
     if ($gitCmd) {
         $installedVersion = & git --version
-        Write-Host "Sucesso! $installedVersion" -ForegroundColor Green
+        Write-Host "Success! $installedVersion" -ForegroundColor Green
     }
     else {
-        Write-Host "Git instalado, mas nao encontrado no PATH da sessao atual. Abra um novo terminal para usar o comando 'git'." -ForegroundColor Yellow
+        Write-Host "Git installed, but not found in the current session's PATH. Open a new terminal to use the 'git' command." -ForegroundColor Yellow
     }
- 
-    # 7. Limpeza opcional do instalador baixado
-    Write-Step "Limpando arquivos temporarios..."
+
+    # 7. Optional cleanup of the downloaded installer
+    Write-Step "Cleaning up temporary files..."
     Remove-Item -Path $installerPath -Force -ErrorAction SilentlyContinue
- 
-    Write-Host "Concluido." -ForegroundColor Cyan
+
+    Write-Host "Done." -ForegroundColor Cyan
 }
 catch {
-    Write-Host "ERRO: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "ERROR: $($_.Exception.Message)" -ForegroundColor Red
     exit 1
 }

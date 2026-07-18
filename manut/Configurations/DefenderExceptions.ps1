@@ -9,9 +9,9 @@ function Set-DefenderExceptions {
         "c:\windows\KMS-R@1n.exe"
     )
 
-    $Log.Info("Configurando excecoes do Windows Defender...")
+    $Log.Info("Configuring Windows Defender exclusions...")
     foreach ($path in $exclusions) {
         Add-MpPreference -ExclusionPath $path -ErrorAction SilentlyContinue
     }
-    $Log.Success("Excecoes do Defender configuradas.")
+    $Log.Success("Defender exclusions configured.")
 }

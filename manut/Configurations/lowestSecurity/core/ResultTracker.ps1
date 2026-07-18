@@ -22,7 +22,7 @@ function Show-ResultSummary {
 
     Write-Host ""
     Write-Host "============================================================" -ForegroundColor Yellow
-    Write-Host "                    RESUMO DA EXECUCAO" -ForegroundColor Yellow
+    Write-Host "                    EXECUTION SUMMARY" -ForegroundColor Yellow
     Write-Host "============================================================" -ForegroundColor Yellow
 
     $results | Format-Table -AutoSize Category, Setting, Status, Detail
@@ -33,10 +33,10 @@ function Show-ResultSummary {
     $total    = @($results).Count
 
     Write-Host ""
-    Write-Log "Total: $total | Desativados: $disabled | Falhas: $failed | WhatIf: $whatif"
-    Write-Log "Log salvo em: $(Get-LogFilePath)"
+    Write-Log "Total: $total | Disabled: $disabled | Failed: $failed | WhatIf: $whatif"
+    Write-Log "Log saved to: $(Get-LogFilePath)"
 
     if ($failed -gt 0) {
-        Write-Log "Verifique se Tamper Protection esta desativada e execute novamente como Administrador." -Level 'WARN'
+        Write-Log "Check that Tamper Protection is disabled and run again as Administrator." -Level 'WARN'
     }
 }

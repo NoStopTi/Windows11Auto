@@ -4,20 +4,20 @@ function Disable-DevDriveProtection {
     Write-Log "=== Dev Drive Protection ==="
 
     if ($WhatIf) {
-        Write-Log "[WHATIF] Desativaria: Dev Drive Protection"
-        Add-Result 'Dev Drive' 'Protecao de Unidade de Desenvolvimento' 'WHATIF'
+        Write-Log "[WHATIF] Would disable: Dev Drive Protection"
+        Add-Result 'Dev Drive' 'Dev Drive Protection' 'WHATIF'
         return
     }
 
     try {
         $ok = Set-RegistryValue 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection' 'DisableAsyncScanOnOpen' 1
         if ($ok) {
-            Write-Log "Desativado: Dev Drive Protection (async scan)" -Level 'OK'
-            Add-Result 'Dev Drive' 'Protecao de Unidade de Desenvolvimento' 'DISABLED'
+            Write-Log "Disabled: Dev Drive Protection (async scan)" -Level 'OK'
+            Add-Result 'Dev Drive' 'Dev Drive Protection' 'DISABLED'
         }
     }
     catch {
-        Write-Log "Falha Dev Drive Protection: $_" -Level 'ERROR'
-        Add-Result 'Dev Drive' 'Protecao de Unidade de Desenvolvimento' 'FAILED' $_.Exception.Message
+        Write-Log "Dev Drive Protection failure: $_" -Level 'ERROR'
+        Add-Result 'Dev Drive' 'Dev Drive Protection' 'FAILED' $_.Exception.Message
     }
 }
