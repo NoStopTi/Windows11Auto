@@ -4,7 +4,7 @@ function Install-CustomizedAppsForMachine {
         [string] $BasePath
     )
 
-    $machinesJsonPath = Join-Path $BasePath "Installers\machines.json"
+    $machinesJsonPath = Join-Path $BasePath "Core\machines.json"
 
     if (-not (Test-Path $machinesJsonPath)) {
         $Log.Warn("machines.json file not found at '$machinesJsonPath'.")
