@@ -45,6 +45,18 @@
                                                             {
                                                                 "appName":  "WisprFlow",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\WisprFlow.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "MySQLServer",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\MySQLServer.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "MySQLWorkbench",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\MySQLWorkbench.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "DockerDesktop",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\DockerDesktop.ps1"
                                                             }
                                                         ],
                                                "configs":  [
@@ -57,5 +69,5 @@
                                        ]
                       }
                   ],
-    "version":  "1.0.0.2"
+    "version":  "1.0.0.3"
 }

@@ -62,3 +62,20 @@ para:
 - Se houver mais de uma máquina/empresa no `machines.json` que também referencie esta pasta, adicione a entrada em **todas** elas.
 - Se nenhuma máquina ainda referenciar esta pasta, pergunte ao usuário em qual `uuid`/empresa a entrada deve ser adicionada antes de editar.
 - Não crie arquivos duplicados de instalador nem entradas duplicadas em `machines.json` para o mesmo script.
+
+## Execução silenciosa (obrigatório)
+
+Todo script criado nesta pasta precisa rodar de forma **silenciosa e não interativa**:
+
+- Não interaja com o usuário em tempo de execução: nada de `Read-Host`, `pause`, prompts de confirmação, ou qualquer chamada que bloqueie esperando input.
+- Não exiba alertas, popups ou caixas de diálogo (`[System.Windows.Forms.MessageBox]`, `msgbox`, etc.) nem instruções do tipo "instale X", "baixe Y" — o script deve resolver dependências sozinho (ou falhar de forma limpa) em vez de pedir para o usuário agir.
+- É permitido apenas **informar** o que está acontecendo (ex.: `Write-Output`/`Write-Verbose`/log), nunca pedir ação ou aguardar confirmação.
+- Suprima prompts nativos de cmdlets destrutivos/interativos com os parâmetros apropriados (`-Confirm:$false`, `-Force`, etc.) quando isso for seguro para o propósito do script.
+
+## Documentação obrigatória
+
+Todo script `.ps1` criado nesta pasta precisa ser **documentado em detalhe**, seguindo as boas práticas de documentação do PowerShell:
+
+- Incluir um comment-based help completo no topo do arquivo (`.SYNOPSIS`, `.DESCRIPTION`, `.PARAMETER` para cada parâmetro, `.EXAMPLE`, e `.NOTES` quando fizer sentido).
+- Comentar trechos não óbvios do código (o "porquê", não o "o quê" — evite comentar o óbvio).
+- Nomear funções e variáveis de forma clara e consistente com as convenções PowerShell (verbo-substantivo aprovado para funções, `PascalCase`/`camelCase` conforme o padrão já usado nos scripts existentes da pasta).
