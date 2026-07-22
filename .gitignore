@@ -7,6 +7,14 @@
 # Excecao: mantem o arquivo de resposta de instalacao desatendida
 !/autounattend.xml
 
+#Commitar automaticamente o arquivos
+!/Commit-Push.ps1
+
+# Excecao: mantem o arquivo de workspace do VSCode
+!/Win11AutoInstallation.code-workspace
+
+
+
 # Excecao: mantem o README do repositorio
 !/README.md
 
