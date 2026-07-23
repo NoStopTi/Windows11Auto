@@ -206,18 +206,22 @@
                     <Order>8</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>netsh wlan add profile filename="C:\manut\Configurations\wifi-default.xml"</CommandLine>
+                    <CommandLine>powershell -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force</CommandLine>
                     <Order>9</Order>
+                </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>netsh wlan add profile filename="C:\manut\Configurations\wifi-default.xml"</CommandLine>
+                    <Order>10</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -ExecutionPolicy Bypass -File c:\manut\Core\CheckVersion.ps1</CommandLine>
                     <Description>Check if a new version is available.</Description>
-                    <Order>10</Order>
+                    <Order>11</Order>
                     <RequiresUserInput>false</RequiresUserInput>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -ExecutionPolicy Bypass -File C:\MANUT\start.ps1</CommandLine>
-                    <Order>11</Order>
+                    <Order>12</Order>
                 </SynchronousCommand>
 
             </FirstLogonCommands>

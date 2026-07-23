@@ -57,6 +57,10 @@
                                                             {
                                                                 "appName":  "DockerDesktop",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\DockerDesktop.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "WinScp",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\WinScp.ps1"
                                                             }
                                                         ],
                                                "configs":  [
