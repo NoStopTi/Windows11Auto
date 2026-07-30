@@ -203,7 +203,7 @@
                     <Order>8</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force</CommandLine>
+                    <CommandLine>Get-ChildItem c:\manut -Recurse | Unblock-File -ErrorAction SilentlyContinue</CommandLine>
                     <Order>9</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
