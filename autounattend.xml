@@ -168,11 +168,8 @@
                 <Username>ADM01</Username>
             </AutoLogon>
             <FirstLogonCommands>
-
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -ExecutionPolicy Bypass -Command
-                        "Set-ExecutionPolicy Unrestricted -Force
-                        -ErrorAction SilentlyContinue"</CommandLine>
+                    <CommandLine>powershell.exe Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -ErrorAction SilentlyContinue</CommandLine>
                     <Description>Allow the next step works fine when the start script called.</Description>
                     <Order>1</Order>
                     <RequiresUserInput>false</RequiresUserInput>
