@@ -220,7 +220,6 @@
                     <CommandLine>powershell.exe -ExecutionPolicy Bypass -File C:\MANUT\start.ps1</CommandLine>
                     <Order>12</Order>
                 </SynchronousCommand>
-
             </FirstLogonCommands>
         </component>
         <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64"

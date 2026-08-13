@@ -1,4 +1,4 @@
-# Instruções para esta pasta
+,# Instruções para esta pasta
 
 Esta pasta (`manut\Installers\customized\nsti\marcus`) contém scripts `.ps1` de instalação de aplicativos referenciados pelo arquivo central:
 

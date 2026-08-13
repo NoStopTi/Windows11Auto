@@ -61,6 +61,10 @@
                                                             {
                                                                 "appName":  "WinScp",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\WinScp.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "Dotnet",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\Dotnet.ps1"
                                                             }
                                                         ],
                                                "configs":  [
