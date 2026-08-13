@@ -65,6 +65,10 @@
                                                             {
                                                                 "appName":  "Dotnet",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\Dotnet.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "GitHubCli",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\GitHubCli.ps1"
                                                             }
                                                         ],
                                                "configs":  [
