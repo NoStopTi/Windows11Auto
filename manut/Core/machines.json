@@ -69,6 +69,10 @@
                                                             {
                                                                 "appName":  "GitHubCli",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\GitHubCli.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "FileZilla",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\FileZilla.ps1"
                                                             }
                                                         ],
                                                "configs":  [

@@ -42,10 +42,21 @@ function Get-WingetPath {
         return $existing.Source
     }
 
+    # Get-Command misses winget when the App Execution Alias folder isn't on
+    # this process's PATH yet (common in non-interactive sessions), even
+    # though the App Installer package is already registered. Checking the
+    # well-known alias path first avoids a redundant Add-AppxPackage call,
+    # which fails with HRESULT 0x80073D02 ("resources in use") when the
+    # package is already installed.
+    $wingetPath = Join-Path $env:LOCALAPPDATA "Microsoft\WindowsApps\winget.exe"
+    if (Test-Path $wingetPath) {
+        $env:Path = "$env:LOCALAPPDATA\Microsoft\WindowsApps;$env:Path"
+        return $wingetPath
+    }
+
     Write-Step "winget not found, installing the App Installer package..."
     Add-AppxPackage -Path https://aka.ms/getwinget
 
-    $wingetPath = Join-Path $env:LOCALAPPDATA "Microsoft\WindowsApps\winget.exe"
     if (-not (Test-Path $wingetPath)) {
         throw "Failed to bootstrap winget. Expected executable at $wingetPath."
     }
