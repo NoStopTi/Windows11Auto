@@ -73,6 +73,14 @@
                                                             {
                                                                 "appName":  "FileZilla",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\FileZilla.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "Postman",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\Postman.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "VirtualBox",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\VirtualBox.ps1"
                                                             }
                                                         ],
                                                "configs":  [
