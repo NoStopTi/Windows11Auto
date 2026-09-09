@@ -81,6 +81,10 @@
                                                             {
                                                                 "appName":  "VirtualBox",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\VirtualBox.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "WslUbuntuCustom",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\WslUbuntuCustom.ps1"
                                                             }
                                                         ],
                                                "configs":  [
