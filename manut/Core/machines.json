@@ -85,6 +85,10 @@
                                                             {
                                                                 "appName":  "WslUbuntuCustom",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\WslUbuntuCustom.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "OpenCode",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\OpenCode.ps1"
                                                             }
                                                         ],
                                                "configs":  [
