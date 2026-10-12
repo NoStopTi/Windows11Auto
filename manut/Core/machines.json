@@ -89,6 +89,10 @@
                                                             {
                                                                 "appName":  "OpenCode",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\OpenCode.ps1"
+                                                            },
+                                                            {
+                                                                "appName":  "PostgreSQLExplorer",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\PostgreSQLExplorer.ps1"
                                                             }
                                                         ],
                                                "configs":  [
