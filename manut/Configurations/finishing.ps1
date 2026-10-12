@@ -1,5 +1,5 @@
 #Requires -RunAsAdministrator
-Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -ErrorAction SilentlyContinue
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force -ErrorAction SilentlyContinue
 
 $basePath ="C:\manut"
 

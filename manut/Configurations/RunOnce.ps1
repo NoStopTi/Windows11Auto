@@ -5,7 +5,7 @@ function Register-FinishingScript {
     )
 
     $name  = "Call-Finishing"
-    $value = "cmd /c start powershell $($Config.BasePath)\Configurations\finishing.ps1"
+    $value = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$($Config.BasePath)\Configurations\finishing.ps1`""
     $path  = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce"
 
     $Log.Info("Registering finishing script in RunOnce...")

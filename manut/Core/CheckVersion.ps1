@@ -145,7 +145,8 @@ Write-Ok "Clone completo em '$TempCloneDir'."
 # --- 5. Espelha (mirror) o clone para cada destino desatualizado ---
 foreach ($target in $targetsToUpdate) {
     Write-Step "Atualizando '$target' (mirror)..."
-    robocopy $TempCloneDir $target /MIR /XD ".git" /R:2 /W:2 /NFL /NDL | Out-Null
+    # secure (.env), OFFLINE (installer cache) and log are not in git: exclude them so /MIR does not purge them
+    robocopy $TempCloneDir $target /MIR /XD ".git" "secure" "OFFLINE" "log" /R:2 /W:2 /NFL /NDL | Out-Null
     if ($LASTEXITCODE -ge 8) {
         Write-Fail "Robocopy falhou ao atualizar '$target' (codigo $LASTEXITCODE)."
     }

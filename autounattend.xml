@@ -169,7 +169,7 @@
             </AutoLogon>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force -ErrorAction SilentlyContinue</CommandLine>
+                    <CommandLine>powershell.exe -NoProfile -Command "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope LocalMachine -Force -ErrorAction SilentlyContinue"</CommandLine>
                     <Description>Allow the next step works fine when the start script called.</Description>
                     <Order>1</Order>
                     <RequiresUserInput>false</RequiresUserInput>
@@ -203,7 +203,7 @@
                     <Order>8</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>Get-ChildItem c:\manut -Recurse | Unblock-File -ErrorAction SilentlyContinue</CommandLine>
+                    <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem C:\manut -Recurse -File | Unblock-File -ErrorAction SilentlyContinue"</CommandLine>
                     <Order>9</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">

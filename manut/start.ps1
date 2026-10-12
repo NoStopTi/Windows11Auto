@@ -1,6 +1,9 @@
 # --- Bootstrap: locate pendrive and copy base files ---
 $basePath = "C:\manut"
 
+# Remove Mark-of-the-Web so no script ever shows the "Security warning" prompt
+Get-ChildItem -Path $basePath -Recurse -File | Unblock-File -ErrorAction SilentlyContinue
+
 
 . "$basePath\Core\Logger.ps1"
 . "$basePath\Core\Config.ps1"
@@ -19,8 +22,6 @@ $basePath = "C:\manut"
 . "$basePath\Configurations\RunOnce.ps1"
 . "$basePath\Configurations\AutoLogon.ps1"
 
-Enable-AutoLogon
-
 
 # --- Load Package Definitions ---
 . "$basePath\Installers\Firefox.ps1"
@@ -36,6 +37,9 @@ Enable-AutoLogon
 $config = [AppConfig]::new()
 $logger = [Logger]::new($config.LogPath)
 $installer = [PackageInstaller]::new($logger, $config)
+
+# Keep autologon on across every reboot until finishing.ps1 (last step) disables it
+Enable-AutoLogon -Log $logger
 
 $logger.Info("============================================")
 $logger.Info("  STARTING INSTALLATION AND CONFIGURATION")
