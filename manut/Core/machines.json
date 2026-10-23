@@ -67,6 +67,10 @@
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\Dotnet.ps1"
                                                             },
                                                             {
+                                                                "appName":  "DotNetSdk",
+                                                                "path":  ".\\Installers\\customized\\nsti\\marcus\\DotNetSdk.ps1"
+                                                            },
+                                                            {
                                                                 "appName":  "GitHubCli",
                                                                 "path":  ".\\Installers\\customized\\nsti\\marcus\\GitHubCli.ps1"
                                                             },
@@ -105,5 +109,5 @@
                                        ]
                       }
                   ],
-    "version":  "1.0.1.0"
+    "version":  "1.0.1.1"
 }
