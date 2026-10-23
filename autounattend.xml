@@ -207,7 +207,8 @@
                     <Order>9</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>netsh wlan add profile filename="C:\manut\Configurations\wifi-default.xml"</CommandLine>
+                    <CommandLine>powershell.exe -ExecutionPolicy Bypass -File C:\manut\Configurations\connect-wifi.ps1</CommandLine>
+                    <Description>Add Wi-Fi profile, connect and wait for internet.</Description>
                     <Order>10</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">

@@ -18,3 +18,4 @@ function Register-FinishingScript {
     }
     $Log.Success("Finishing script registered.")
 }
+

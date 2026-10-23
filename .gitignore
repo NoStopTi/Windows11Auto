@@ -26,3 +26,9 @@
 
 # Nunca versionar segredos em texto puro (senhas de admin/adm01/usuario padrao)
 /manut/Core/secure/
+
+# Nunca versionar arquivos .env (senhas), em qualquer pasta; so o modelo .env.example
+.env
+*.env
+.env.*
+!.env.example

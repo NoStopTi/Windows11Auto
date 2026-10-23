@@ -55,7 +55,8 @@
     its default login user.
 
 .PARAMETER Password
-    Password assigned to $Username via chpasswd.
+    Password assigned to $Username via chpasswd. When omitted, it is read
+    from WSL_USER_PASSWORD in C:\manut\Core\secure\.env.
 
 .PARAMETER MinimumVersion
     Baseline Ubuntu version ("YY.MM.patch") to look for; a newer point
@@ -79,9 +80,8 @@
     Windows optional features (when not already enabled) is a
     system-wide (HKLM) change.
 
-    $Password defaults to a short, non-secret value on purpose, as
-    explicitly requested for this internal/dev provisioning flow -- pass
-    -Password with a stronger value for anything beyond that use case.
+    The password is kept out of the repository: it lives in the .env file
+    (not versioned) alongside the other provisioning secrets.
 #>
 
 [CmdletBinding()]
@@ -95,8 +95,8 @@ param(
     # Non-root user created inside the distribution
     [string]$Username = "marcus",
 
-    # Password assigned to $Username
-    [string]$Password = "123",
+    # Password assigned to $Username (WSL_USER_PASSWORD in C:\manut\Core\secure\.env)
+    [string]$Password,
 
     # Baseline Ubuntu version; a newer point release is used automatically if available
     [string]$MinimumVersion = "26.04.1",
@@ -116,6 +116,18 @@ $ErrorActionPreference = "Stop"
 # already exists) legitimately exit non-zero as a normal, expected
 # outcome, not an error -- so that promotion is disabled here.
 $PSNativeCommandUseErrorActionPreference = $false
+
+# Secrets are never stored in the repository: fall back to the .env file
+if ([string]::IsNullOrEmpty($Password)) {
+    $envFilePath = "C:\manut\Core\secure\.env"
+    if (Test-Path $envFilePath) {
+        $envLine = Get-Content -Path $envFilePath | Where-Object { $_ -match '^\s*WSL_USER_PASSWORD\s*=' } | Select-Object -First 1
+        if ($envLine) { $Password = ($envLine -split '=', 2)[1] }
+    }
+    if ([string]::IsNullOrEmpty($Password)) {
+        throw "WSL_USER_PASSWORD not found in '$envFilePath' and -Password was not provided."
+    }
+}
 
 function Write-Step {
     param([string]$Message)
