@@ -141,7 +141,7 @@ function Complete-PostFormatSetup {
     Set-AdministratorPasswords -Log $Log -Secrets $secrets
     New-StandardWorkstationUser -Log $Log -Secrets $secrets
     Set-MotherboardBasedComputerName -Log $Log
-    Disable-AutoLogon -Log $Log
+    # Autologon stays on: Update-Windows.ps1 (called next by finishing.ps1) turns it off at the very end
 
     $Log.Success("Credential provisioning complete.")
 }

@@ -68,10 +68,10 @@ function Enable-AutoLogon {
 
     # autounattend.xml <LogonCount> leaves AutoLogonCount behind; once it reaches 0
     # Winlogon wipes the autologon on the next boot. Remove it so autologon persists
-    # until Disable-AutoLogon runs in the last step (finishing.ps1).
+    # until Update-Windows.ps1 (the last step, called by finishing.ps1) turns it off.
     Remove-ItemProperty -Path $regPath -Name "AutoLogonCount" -ErrorAction SilentlyContinue
 
-    Write-AutoLogonMessage -Log $Log -Level "Success" -Message "Autologon enabled for '$Username' until the finishing step."
+    Write-AutoLogonMessage -Log $Log -Level "Success" -Message "Autologon enabled for '$Username' until Windows Update finishes."
 }
 
 function Disable-AutoLogon {
