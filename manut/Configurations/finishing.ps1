@@ -29,3 +29,9 @@ if ($osCaption -match "Windows 1[01] (Pro|Home)") {
 else {
     $logger.Warn("Operating system not supported by the finishing script: $osCaption")
 }
+
+# --- Last step: install every Windows update, rebooting until none is left ---
+$logger.Info("Starting Windows Update (log: C:\ProgramData\WinUpdateAuto\logs)...")
+Start-Process -FilePath "powershell.exe" `
+    -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "`"$basePath\Configurations\Update-Windows.ps1`"") `
+    -Wait
